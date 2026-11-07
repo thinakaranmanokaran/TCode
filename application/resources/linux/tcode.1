@@ -1,0 +1,41 @@
+.TH TCODE 1 "2026-11-07" "T Code 2.1.7" "User Commands"
+.SH NAME
+tcode \- lightweight text editor written in Lua
+.SH SYNOPSIS
+.B tcode
+.RI [ file... ]
+.SH DESCRIPTION
+T Code is a lightweight text editor written mostly in Lua, on top of a
+minimalistic C core using the SDL3 graphics library.
+.PP
+Run with no arguments to open the welcome screen. Pass one or more files
+or directories to open them as a project.
+.SH PORTABLE MODE
+Create a folder named \fBuser\fR next to the \fBtcode\fR binary.
+T Code will load and store configuration and plugins in that folder.
+Carry the whole directory on a USB drive and your setup travels with you.
+.SH ENVIRONMENT
+.TP
+.B LITE_USERDIR
+Override the user configuration directory.
+.TP
+.B LITE_PREFIX
+Override the install prefix (expects \fBshare/tcode\fR under it).
+.TP
+.B LITE_SCALE
+UI scale factor (default 1).
+.SH FILES
+.TP
+.I ~/.config/tcode/
+User configuration and plugins (or \fBuser/\fR in portable mode).
+.TP
+.I /usr/local/share/tcode/ (or $prefix/share/tcode/)
+Installed Lua runtime and data.
+.SH EXIT STATUS
+0 on success, non-zero on fatal error (see error.txt in the user dir).
+.SH SEE ALSO
+.BR lua(1)
+.SH AUTHOR
+Thinakaran Manokaran <https://thinakaran.dev/>
+.SH LICENSE
+MIT

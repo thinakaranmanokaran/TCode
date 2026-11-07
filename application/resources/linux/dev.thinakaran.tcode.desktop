@@ -1,0 +1,10 @@
+[Desktop Entry]
+Type=Application
+Name=T Code
+Comment=A lightweight text editor written in Lua
+Exec=tcode %F
+Icon=tcode
+Terminal=false
+StartupWMClass=dev.thinakaran.tcode
+Categories=Development;IDE;
+MimeType=text/plain;inode/directory;

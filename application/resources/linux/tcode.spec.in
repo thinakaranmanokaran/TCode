@@ -1,0 +1,35 @@
+Name:           tcode
+Version:        @VERSION@
+Release:        1%{?dist}
+Summary:        lightweight text editor written in Lua
+License:        MIT
+BuildArch:      x86_64
+Requires:       SDL3, luajit OR lua
+Suggests:       xdg-utils
+
+%description
+T Code is a lightweight text editor written mostly in Lua, on top of a
+minimalistic C core using the SDL3 graphics library.
+
+%prep
+%autosetup -p1
+
+%build
+meson setup --buildtype=release --prefix=/usr/local --wrap-mode=forcefallback build
+meson compile -C build
+
+%install
+DESTDIR=%{buildroot} meson install -C build --skip-subprojects=freetype2,lua,pcre2
+
+%files
+/usr/local/bin/tcode
+/usr/local/share/tcode/
+/usr/local/share/doc/tcode/
+/usr/local/share/icons/hicolor/scalable/apps/tcode.svg
+/usr/local/share/applications/dev.thinakaran.tcode.desktop
+/usr/local/share/metainfo/dev.thinakaran.tcode.metainfo.xml
+/usr/local/share/man/man1/tcode.1.gz
+
+%changelog
+* Sat Nov 07 2026 Thinakaran Manokaran <https://thinakaran.dev/> @VERSION@-1
+- Initial RPM packaging.

@@ -1,0 +1,11 @@
+Package: tcode
+Version: @VERSION@
+Architecture: amd64
+Maintainer: Thinakaran Manokaran <https://thinakaran.dev/>
+Description: lightweight text editor written in Lua
+ T Code is a lightweight text editor written mostly in Lua, on top of a
+ minimalistic C core using the SDL3 graphics library. It keeps the small,
+ fast, extensible design of Lite XL while adding a VS Code-style menu bar,
+ integrated terminal, theme picker, word wrap, and native file dialogs.
+Homepage: https://thinakaran.dev/
+License: MIT
