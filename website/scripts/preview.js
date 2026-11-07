@@ -5,6 +5,16 @@ import path from "node:path";
 
 const dist = path.resolve(process.cwd(), "dist");
 const port = Number(process.env.PORT || 4173);
+// When previewing the GitHub Pages build (VITE_BASE=/TCode/), the site is
+// served under /TCode/. Strip that prefix so local preview matches prod.
+// Windows Git Bash/MSYS can mangle a bare "/TCode/" env value (e.g. into
+// "/Softwares/Git/TCode/"); normalize it the same way vite.config.js does.
+function resolveBase(raw) {
+  const v = raw || "/";
+  if (v.includes("/TCode/")) return v.slice(v.lastIndexOf("/TCode/"));
+  return v.startsWith("/") ? v : `/${v}`;
+}
+const base = resolveBase(process.env.VITE_BASE);
 
 const types = {
   ".html": "text/html; charset=utf-8",
@@ -23,7 +33,11 @@ const types = {
 };
 
 async function resolveFile(urlPath) {
-  const clean = decodeURIComponent(urlPath.split("?")[0]);
+  let clean = decodeURIComponent(urlPath.split("?")[0]);
+  // Support both "/" and base-prefixed ("/TCode/...") local preview URLs.
+  if (base !== "/" && clean.startsWith(base)) {
+    clean = clean.slice(base.length - 1) || "/";
+  }
   const candidates = [];
 
   if (clean === "/") {
@@ -66,5 +80,6 @@ const server = createServer(async (req, res) => {
 });
 
 server.listen(port, "127.0.0.1", () => {
-  console.log(`T Code site preview: http://127.0.0.1:${port}`);
+  const prefix = base === "/" ? "" : base.replace(/\/$/, "");
+  console.log(`T Code site preview: http://127.0.0.1:${port}${prefix}/`);
 });

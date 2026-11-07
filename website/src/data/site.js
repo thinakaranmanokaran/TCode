@@ -1,6 +1,9 @@
 export const siteConfig = {
   name: "T Code",
-  url: "https://tcode.thinakaran.dev",
+  // GitHub Pages project site. Keep base in sync with vite.config.js
+  // (VITE_BASE=/TCode/) and .github/workflows/pages.yml. Point back to
+  // https://tcode.thinakaran.dev when using the custom domain.
+  url: "https://thinakaranmanokaran.github.io/TCode",
   version: "2.1.7",
   tagline: "A lightweight code editor that gets out of your way.",
   description:
@@ -30,8 +33,8 @@ export const siteConfig = {
     ],
   },
   links: {
-    github: "https://github.com/thinakaranmanokaran/tcode",
-    releases: "https://github.com/thinakaranmanokaran/tcode/releases/latest",
+    github: "https://github.com/thinakaranmanokaran/TCode",
+    releases: "https://github.com/thinakaranmanokaran/TCode/releases/latest",
     portfolio: "https://thinakaran.dev",
     linkedin: "https://www.linkedin.com/in/thinakaran-manohar",
     dev: "https://dev.to/thinakaran",

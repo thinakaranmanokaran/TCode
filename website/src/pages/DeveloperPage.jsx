@@ -6,6 +6,7 @@ import { JsonLd } from "../components/JsonLd.jsx";
 import { SectionCta } from "../components/SectionCta.jsx";
 import { Reveal } from "../components/Reveal.jsx";
 import { siteConfig } from "../data/site.js";
+import { assetPath } from "../data/base.js";
 import { timeline } from "../data/story.js";
 import {
   graphSchema,
@@ -100,7 +101,7 @@ export function DeveloperPage() {
           <Reveal className="developer-hero__photo" delay={100}>
             <img
               className="developer-photo"
-              src={siteConfig.author.photo}
+              src={assetPath(siteConfig.author.photo)}
               alt="Thinakaran Manokaran"
               width="400"
               height="400"

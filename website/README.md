@@ -26,8 +26,8 @@ npm run preview  # preview the production build
 
 Before deploying, update `src/data/site.js`:
 
-- `url` — the canonical domain (currently `https://tcode.thinakaran.dev`)
-- `links.github` / `links.releases` — the public T Code repository and release page
+- `url` — the canonical domain (currently `https://thinakaranmanokaran.github.io/TCode`)
+- `links.github` / `links.releases` — the public T Code repository and release page (`https://github.com/thinakaranmanokaran/TCode`)
 - `downloads.*` — release asset filenames
 - `version` — the version shown in the header and download page
 
@@ -63,6 +63,24 @@ node scripts/generate-theme-data.js
 - Images are WebP, lazy-loaded below the fold, and sized to prevent layout shift
 
 ## Deploy
+
+### GitHub Pages (recommended)
+
+Repo: `https://github.com/thinakaranmanokaran/TCode` · Site: `https://thinakaranmanokaran.github.io/TCode/`
+
+1. In the repo, go to **Settings → Pages → Build and deployment → Source: GitHub Actions**.
+2. Push to `main` (or run **Actions → Deploy website to GitHub Pages → Run workflow**).
+   The workflow in `.github/workflows/pages.yml` builds `website/` with `VITE_BASE=/TCode/` and deploys `website/dist/`.
+
+```sh
+# Local check of the Pages build
+MSYS_NO_PATHCONV=1 VITE_BASE=/TCode/ npm run build
+npm run preview   # serves at http://127.0.0.1:4173/TCode/
+```
+
+- `vite.config.js` reads `VITE_BASE` (default `/`) and `src/main.jsx` passes `basename: import.meta.env.BASE_URL` to the router, so links/assets resolve under `/TCode/` on Pages and `/` on custom domains.
+- `src/data/site.js` `url` includes the `/TCode` subpath so sitemap, canonical, and OG URLs are correct on Pages. Point it back to `https://tcode.thinakaran.dev` for the custom domain.
+- `public/.nojekyll` bypasses Jekyll (keeps `_headers` intact).
 
 ### Cloudflare Pages
 

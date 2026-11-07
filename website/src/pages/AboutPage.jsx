@@ -7,6 +7,7 @@ import { Lineage } from "../components/Lineage.jsx";
 import { SectionCta } from "../components/SectionCta.jsx";
 import { Reveal } from "../components/Reveal.jsx";
 import { siteConfig } from "../data/site.js";
+import { assetPath } from "../data/base.js";
 import {
   graphSchema,
   websiteSchema,
@@ -157,7 +158,7 @@ export function AboutPage() {
               </Link>
             </div>
             <img
-              src={siteConfig.author.photo}
+              src={assetPath(siteConfig.author.photo)}
               alt="Thinakaran Manokaran"
               width="400"
               height="400"

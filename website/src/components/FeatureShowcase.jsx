@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { ArrowUpRight } from "lucide-react";
 import { features as defaultFeatures } from "../data/features.js";
+import { assetPath } from "../data/base.js";
 import { SectionHeading } from "./SectionHeading.jsx";
 import { Reveal } from "./Reveal.jsx";
 
@@ -79,7 +80,7 @@ function FeatureVisual({ feature }) {
   return (
     <img
       className="feature-card__shot"
-      src={feature.image}
+      src={assetPath(feature.image)}
       alt={feature.imageAlt}
       width={size.width}
       height={size.height}
