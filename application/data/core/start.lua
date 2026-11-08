@@ -26,7 +26,7 @@ USERDIR = (system.get_file_info(EXEDIR .. PATHSEP .. 'user') and (EXEDIR .. PATH
        or os.getenv("LITE_USERDIR")
        or default_config_dir("tcode")
 
--- Carry over settings from the previous Lite XL configuration directory.
+-- Carry over settings from the previous configuration directory.
 local function copy_tree(src, dst)
   local info = system.get_file_info(src)
   if not info then return end

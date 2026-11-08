@@ -1,7 +1,7 @@
 # Contributing to T Code
 
 Thanks for helping improve T Code. T Code is a lightweight text editor written
-in Lua on top of a small C core, adapted from [Lite XL] and [lite].
+in Lua on top of a small C core.
 
 ## Reporting issues
 
@@ -30,7 +30,4 @@ with most Lite XL plugins and color themes:
 
 By contributing, you agree that your contributions are licensed under the MIT
 license. See [LICENSE](LICENSE) and [licenses/licenses.md](application/licenses/licenses.md)
-for the project and upstream notices.
-
-[Lite XL]: https://github.com/lite-xl/lite-xl
-[lite]: https://github.com/rxi/lite
+for the project and third-party notices.

@@ -10,12 +10,14 @@ import {
   graphSchema,
   websiteSchema,
   softwareSchema,
+  personSchema,
   breadcrumbSchema,
 } from "../data/schema.js";
 
 const schema = graphSchema([
   websiteSchema,
   softwareSchema,
+  personSchema,
   breadcrumbSchema([
     { name: "Home", path: "/" },
     { name: "Changelog", path: "/changelog" },
@@ -27,7 +29,7 @@ export function ChangelogPage() {
     <>
       <PageMeta
         title="T Code Changelog — Release Notes & Updates"
-        description="Every T Code release in one place: new features, fixes, terminal improvements, theme updates, and the Lite XL releases underneath the editor."
+        description="Every T Code release in one place: new features, fixes, terminal improvements, and theme updates."
         path="/changelog"
       />
       <JsonLd data={schema} />

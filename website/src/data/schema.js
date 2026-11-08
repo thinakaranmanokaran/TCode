@@ -61,9 +61,23 @@ export const softwareSchema = {
     "24 built-in themes with live preview",
     "Multi-cursor and column selection",
     "Portable mode",
-    "Lite XL plugin compatibility",
+    "Plugin compatibility",
   ],
 };
+
+export function webPageSchema({ title, description, path }) {
+  return {
+    "@type": "WebPage",
+    "@id": abs(path),
+    url: abs(path),
+    name: title,
+    description,
+    inLanguage: "en",
+    isPartOf: { "@id": `${siteConfig.url}/#website` },
+    author: { "@id": `${siteConfig.url}/#thinakaran` },
+    publisher: { "@id": `${siteConfig.url}/#thinakaran` },
+  };
+}
 
 export function breadcrumbSchema(items) {
   return {

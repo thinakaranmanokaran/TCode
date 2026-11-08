@@ -1,17 +1,36 @@
 import { Link } from "react-router-dom";
 import { ArrowUpRight } from "lucide-react";
 import { PageMeta } from "../components/PageMeta.jsx";
+import { JsonLd } from "../components/JsonLd.jsx";
 import { PageHero } from "../components/PageHero.jsx";
 import { siteConfig } from "../data/site.js";
+import {
+  graphSchema,
+  websiteSchema,
+  personSchema,
+  webPageSchema,
+} from "../data/schema.js";
+
+const schema = graphSchema([
+  websiteSchema,
+  personSchema,
+  webPageSchema({
+    title: "T Code License — MIT and Upstream Notices",
+    description:
+      "T Code is MIT licensed. Read the project license and third-party dependency notices.",
+    path: "/license",
+  }),
+]);
 
 export function LicensePage() {
   return (
     <>
       <PageMeta
         title="T Code License — MIT and Upstream Notices"
-        description="T Code is MIT licensed and built on Lite XL and lite. Read the project license and the upstream dependency notices."
+        description="T Code is MIT licensed. Read the project license and third-party dependency notices."
         path="/license"
       />
+      <JsonLd data={schema} />
 
       <PageHero
         eyebrow="License"
@@ -22,8 +41,8 @@ export function LicensePage() {
             list of <em>thanks.</em>
           </>
         }
-        sub="T Code is free software. It is built on the work of Lite XL, lite, and a long list of open-source dependencies."
-        meta={["MIT license", "Open source", "Upstream notices preserved"]}
+        sub="T Code is free software. It is released under the MIT License alongside a long list of open-source dependencies."
+        meta={["MIT license", "Open source", "Third-party notices preserved"]}
       />
 
       <section className="site-container" style={{ paddingBottom: 100, maxWidth: 900 }}>
@@ -48,11 +67,10 @@ export function LicensePage() {
             for the exact terms.
           </p>
 
-          <h2>Upstream projects</h2>
+          <h2>Third-party notices</h2>
           <p>
-            T Code is derived from Lite XL, which is derived from lite. Their
-            copyright notices and license terms are preserved in the project’s
-            license file. The editor would not exist without that lineage.
+            Third-party dependencies and their copyright notices and license
+            terms are preserved in the project’s license file.
           </p>
 
           <h2>Dependencies</h2>
@@ -61,7 +79,7 @@ export function LicensePage() {
             <li>Lua 5.4 — MIT license</li>
             <li>PCRE2 — BSD license</li>
             <li>FreeType2 — FreeType License / GPLv2</li>
-            <li>Lite XL plugins and themes — their respective licenses</li>
+            <li>Plugins and themes — their respective licenses</li>
           </ul>
           <p>
             The complete dependency notices live in the repository at{" "}
@@ -79,7 +97,7 @@ export function LicensePage() {
           <p>
             You can ship T Code as part of a larger distribution, bundle it for a
             team, or fork it for an internal tool. Keep the license notice, and
-            keep the upstream notices intact. If you build something on top of
+            keep the third-party notices intact. If you build something on top of
             T Code, I would love to see it.
           </p>
           <p>

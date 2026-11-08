@@ -11,6 +11,7 @@ import {
   graphSchema,
   websiteSchema,
   softwareSchema,
+  personSchema,
   breadcrumbSchema,
 } from "../data/schema.js";
 import { Reveal } from "../components/Reveal.jsx";
@@ -18,6 +19,7 @@ import { Reveal } from "../components/Reveal.jsx";
 const schema = graphSchema([
   websiteSchema,
   softwareSchema,
+  personSchema,
   breadcrumbSchema([
     { name: "Home", path: "/" },
     { name: "Features", path: "/features" },
@@ -29,8 +31,10 @@ export function FeaturesPage() {
     <>
       <PageMeta
         title="T Code Features — Terminal, Themes & Multi-Cursor"
-        description="Explore T Code's native menu bar, integrated terminal, 24 built-in themes, multi-cursor editing, portable mode, and Lite XL plugin compatibility."
+        description="Explore T Code's native menu bar, integrated terminal, 24 built-in themes, multi-cursor editing, portable mode, and plugin compatibility."
         path="/features"
+        keywords="T Code features, integrated terminal, native menus, multi-cursor, portable mode, plugin compatibility"
+        imageAlt="T Code features — terminal, themes and multi-cursor"
       />
       <JsonLd data={schema} />
 

@@ -1,21 +1,20 @@
 # T Code
 
-A lightweight text editor written in Lua, adapted from [Lite XL].
+A lightweight text editor written in Lua.
 
 **Author:** [Thinakaran Manokaran](https://thinakaran.dev/)
 
 **Website:** https://thinakaran.dev/
 
-T Code keeps the small, fast, and extensible design of Lite XL while adding a
+T Code keeps a small, fast, and extensible design while adding a
 VS Code-style menu bar and activity bar, an integrated terminal, a theme picker
 with live previews, word wrap, a Selection menu, tab and Explorer context menus,
 and native file/folder dialogs.
 
 ## Overview
 
-T Code is derived from [Lite XL], which in turn is derived from [lite]. It is a
-lightweight text editor written mostly in Lua — practical, pretty, *small* and
-fast, easy to modify and extend, or to use without doing either.
+T Code is a lightweight text editor written mostly in Lua — practical, pretty,
+*small* and fast, easy to modify and extend, or to use without doing either.
 
 T Code includes:
 
@@ -155,9 +154,8 @@ the icon, metainfo (`share/metainfo/`) and man page (`share/man/man1/tcode.1`).
 
 ## Contributing
 
-Plugins and color themes can be contributed to the upstream
-[Lite XL plugins repository]. Pull requests that improve T Code itself are
-welcome.
+Plugins and color themes can be contributed to the plugin repositories. Pull
+requests that improve T Code itself are welcome.
 
 ## Licenses
 
@@ -169,11 +167,8 @@ dependencies and upstream projects.
 
 **Copyright © 2026 Thinakaran Manokaran.**
 
-T Code is based on Lite XL and lite; their copyright notices are preserved in
-the [licenses] file.
+Third-party copyright notices are preserved in the [licenses] file.
 
-[Lite XL]:                     https://github.com/lite-xl/lite-xl
-[lite]:                        https://github.com/rxi/lite
 [plugins repository]:          https://github.com/rxi/lite-plugins
 [Lite XL plugins repository]:  https://github.com/lite-xl/lite-xl-plugins
 [colors repository]:           https://github.com/lite-xl/lite-xl-colors

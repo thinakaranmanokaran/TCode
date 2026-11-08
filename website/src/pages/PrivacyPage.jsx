@@ -1,6 +1,24 @@
 import { PageMeta } from "../components/PageMeta.jsx";
+import { JsonLd } from "../components/JsonLd.jsx";
 import { PageHero } from "../components/PageHero.jsx";
 import { siteConfig } from "../data/site.js";
+import {
+  graphSchema,
+  websiteSchema,
+  personSchema,
+  webPageSchema,
+} from "../data/schema.js";
+
+const schema = graphSchema([
+  websiteSchema,
+  personSchema,
+  webPageSchema({
+    title: "T Code Privacy — No Cookies, No Tracking",
+    description:
+      "How the T Code website handles data: no advertising cookies, no third-party tracking scripts, and no account required.",
+    path: "/privacy",
+  }),
+]);
 
 export function PrivacyPage() {
   return (
@@ -10,6 +28,7 @@ export function PrivacyPage() {
         description="How the T Code website handles data: no advertising cookies, no third-party tracking scripts, and no account required."
         path="/privacy"
       />
+      <JsonLd data={schema} />
 
       <PageHero
         eyebrow="Privacy"

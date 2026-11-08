@@ -306,8 +306,16 @@ main() {
   mkdir -p "${build_dir}"
   if [[ -n "$force_fallback" ]]; then
     pushd "${build_dir}"
-    [[ ! -f "SDL3-$sdl3_version.tar.gz" ]] && curl --insecure -L -o "SDL3-$sdl3_version.tar.gz" \
-      "https://github.com/libsdl-org/SDL/releases/download/release-$sdl3_version/SDL3-$sdl3_version.tar.gz"
+    if [[ ! -f "SDL3-$sdl3_version.tar.gz" ]]; then
+      curl --insecure -L -o "SDL3-$sdl3_version.tar.gz" \
+        "https://github.com/libsdl-org/SDL/releases/download/release-$sdl3_version/SDL3-$sdl3_version.tar.gz" || true
+      # GitHub can return a 92-byte 504 HTML page; validate and fall back to libsdl.org
+      if ! tar -tzf "SDL3-$sdl3_version.tar.gz" >/dev/null 2>&1; then
+        echo "GitHub SDL3 download invalid; retrying from libsdl.org..."
+        curl --insecure -L -o "SDL3-$sdl3_version.tar.gz" \
+          "https://www.libsdl.org/release/SDL3-$sdl3_version.tar.gz"
+      fi
+    fi
     [[ ! -f "SDL3-$sdl3_version/CMakeLists.txt" ]] && tar -xzf "SDL3-$sdl3_version.tar.gz"
     case "$build_type" in
       "release"|"debug") cmake_build_type="$build_type";;
@@ -343,21 +351,21 @@ main() {
   echo "platform: $platform  arch: $arch  buildtype: $build_type"
   echo "builddir: $build_dir  prefix: $prefix  destdir: $destdir"
 
-  CFLAGS=$CFLAGS LDFLAGS=$LDFLAGS meson setup \
-    "${build_dir}" \
-    --buildtype "$build_type" \
-    --prefix "$prefix" \
-    $cross_file \
-    $force_fallback \
-    $bundle \
-    $portable \
-    $production \
-    $pgo \
-    $lto \
-    $lto_mode \
-    $plugins \
-    $reconfigure \
-    $pkg_config_path
+  meson_args=(
+    "${build_dir}"
+    --buildtype "$build_type"
+    --prefix "$prefix"
+  )
+  # $cross_file / $force_fallback / $bundle etc. are space-separated flag
+  # strings (e.g. "--wrap-mode=forcefallback"); word-splitting is
+  # intentional here, but $pkg_config_path must stay a single arg
+  # because the build dir may contain spaces.
+  meson_args+=($cross_file $force_fallback $bundle $portable $production $pgo $lto $lto_mode $plugins $reconfigure)
+  if [[ -n "$pkg_config_path" ]]; then
+    meson_args+=("$pkg_config_path")
+  fi
+
+  CFLAGS=$CFLAGS LDFLAGS=$LDFLAGS meson setup "${meson_args[@]}"
 
   meson compile -C "${build_dir}"
 

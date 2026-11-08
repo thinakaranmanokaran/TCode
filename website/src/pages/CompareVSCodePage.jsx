@@ -9,6 +9,7 @@ import {
   graphSchema,
   websiteSchema,
   softwareSchema,
+  personSchema,
   breadcrumbSchema,
   articleSchema,
 } from "../data/schema.js";
@@ -16,6 +17,7 @@ import {
 const schema = graphSchema([
   websiteSchema,
   softwareSchema,
+  personSchema,
   articleSchema({
     title: "VS Code vs T Code: which lightweight editor should you use?",
     description:
@@ -34,7 +36,7 @@ const rows = [
   ["Download size", "Hundreds of MB", "About 5 MB"],
   ["Runtime", "Electron + Chromium + Node", "C + Lua, no browser runtime"],
   ["Startup", "Fast on modern hardware", "Designed to open instantly"],
-  ["Extensions", "Huge marketplace", "Lite XL plugins and themes"],
+  ["Extensions", "Huge marketplace", "Plugins and themes"],
   ["Language support", "Extensive via extensions", "Lua-based syntax and plugin modules"],
   ["Integrated terminal", "Yes", "Yes, with tabs and profiles"],
   ["Debugging", "First-class debugger", "Limited / via plugins"],
@@ -51,6 +53,10 @@ export function CompareVSCodePage() {
         description="Compare VS Code and T Code: download size, runtime, startup, terminal, extensions, debugging, and which editor fits your workflow."
         path="/compare/vs-code-vs-t-code"
         type="article"
+        publishedTime="2026-11-07"
+        modifiedTime="2026-11-07"
+        keywords="VS Code vs T Code, lightweight editor comparison, Electron vs C Lua editor"
+        imageAlt="VS Code vs T Code comparison"
       />
       <JsonLd data={schema} />
 
@@ -117,9 +123,9 @@ export function CompareVSCodePage() {
             safer choice.
           </p>
           <p>
-            T Code supports Lite XL plugins, but that is a smaller ecosystem than
-            the VS Code marketplace. It is enough for many editing workflows; it
-            is not a replacement for every extension.
+            T Code supports third-party plugins, but that is a smaller ecosystem
+            than the VS Code marketplace. It is enough for many editing
+            workflows; it is not a replacement for every extension.
           </p>
 
           <h2>The practical answer</h2>

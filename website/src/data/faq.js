@@ -2,7 +2,7 @@ export const faqs = [
   {
     question: "What is T Code?",
     answer:
-      "T Code is a free, open-source code editor for Windows, Linux, and macOS. It is a lightweight editor built with a C core and Lua, adapted from Lite XL, with a native menu bar, integrated terminal, themes, and a modern desktop workflow.",
+      "T Code is a free, open-source code editor for Windows, Linux, and macOS. It is a lightweight editor built with a C core and Lua, with a native menu bar, integrated terminal, themes, and a modern desktop workflow.",
   },
   {
     question: "Is T Code free?",
@@ -25,9 +25,9 @@ export const faqs = [
       "Yes. T Code includes a real terminal backed by a PTY on POSIX systems and ConPTY on Windows. You can open it as a drawer or a full-pane tab, use multiple sessions, and switch between PowerShell, Command Prompt, bash, zsh, and other profiles.",
   },
   {
-    question: "Can I use Lite XL plugins and themes?",
+    question: "Can I use third-party plugins and themes?",
     answer:
-      "T Code keeps compatibility with the Lite XL plugin API and mod-version 4 plugins. You can also use Lite XL color themes alongside the 24 themes bundled with T Code.",
+      "T Code keeps compatibility with the mod-version 4 plugin API. You can also use third-party color themes alongside the 24 themes bundled with T Code.",
   },
   {
     question: "Is T Code portable?",
@@ -47,6 +47,6 @@ export const faqs = [
   {
     question: "Who makes T Code?",
     answer:
-      "T Code is created by Thinakaran Manokaran, also known as Dheena, a full-stack developer from Thanjavur, Tamil Nadu, India. He builds web, mobile, and desktop tools and maintains T Code on top of the Lite XL codebase.",
+      "T Code is created by Thinakaran Manokaran, also known as Dheena, a full-stack developer from Thanjavur, Tamil Nadu, India. He builds web, mobile, and desktop tools and maintains T Code.",
   },
 ];

@@ -8,12 +8,14 @@ import { blogPosts } from "../data/pages.js";
 import {
   graphSchema,
   websiteSchema,
+  personSchema,
   breadcrumbSchema,
   articleSchema,
 } from "../data/schema.js";
 
 const schema = graphSchema([
   websiteSchema,
+  personSchema,
   breadcrumbSchema([
     { name: "Home", path: "/" },
     { name: "Blog", path: "/blog" },
@@ -33,7 +35,7 @@ export function BlogPage() {
     <>
       <PageMeta
         title="T Code Blog — Lightweight Editing, Builds, and Comparisons"
-        description="Notes on lightweight code editors, T Code releases, building from source, and honest comparisons with Lite XL and VS Code."
+        description="Notes on lightweight code editors, T Code releases, building from source, and honest editor comparisons."
         path="/blog"
       />
       <JsonLd data={schema} />

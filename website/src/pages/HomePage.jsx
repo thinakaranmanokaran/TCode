@@ -22,11 +22,12 @@ export function HomePage() {
         title="T Code — The Lightweight Code Editor for Developers"
         description={siteConfig.description}
         path="/"
+        keywords="lightweight code editor, T Code, free code editor, C Lua editor, integrated terminal, 24 themes"
+        imageAlt="T Code lightweight code editor by Thinakaran Manokaran"
       />
       <JsonLd data={schema} />
 
       <section className="hero">
-        <div className="hero__eyebrow eyebrow">T Code · a lightweight code editor</div>
         <h1 className="display">
           I want to make coding feel <em>light</em> again.
         </h1>
@@ -88,6 +89,7 @@ export function HomePage() {
           <div className="cta__note" style={{ marginTop: 26 }}>
             <div className="note-card note-card--blue">I know you want to</div>
             <ArrowSketch
+              flip
               style={{ width: 84, height: 54, marginLeft: -2, marginTop: 12 }}
             />
           </div>

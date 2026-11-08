@@ -1,3 +1,4 @@
+import { useId, useState } from "react";
 import { Link } from "react-router-dom";
 import { ArrowUpRight } from "lucide-react";
 import { features as defaultFeatures } from "../data/features.js";
@@ -23,7 +24,7 @@ function FeatureVisual({ feature }) {
     return (
       <div className="plugin-panel">
         <div className="eyebrow" style={{ color: "var(--lime)", marginBottom: 18 }}>
-          Lite XL plugin API · mod-version 4
+          Plugin API · mod-version 4
         </div>
         {[
           ["terminal", "built in"],
@@ -90,6 +91,36 @@ function FeatureVisual({ feature }) {
   );
 }
 
+function FeatureDetail({ detail, defaultOpen }) {
+  const [open, setOpen] = useState(defaultOpen);
+  const panelId = useId();
+
+  return (
+    <div className={`feature-detail${open ? " is-open" : ""}`}>
+      <button
+        type="button"
+        className="feature-detail__button"
+        aria-expanded={open}
+        aria-controls={panelId}
+        onClick={() => setOpen((value) => !value)}
+      >
+        <span>{detail.label}</span>
+      </button>
+      <div
+        className="feature-detail__panel"
+        id={panelId}
+        role="region"
+        aria-hidden={!open}
+        inert={!open}
+      >
+        <div className="feature-detail__panel-inner">
+          <p>{detail.body}</p>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 function FeatureCard({ feature, index }) {
   return (
     <Reveal as="article" className="feature-card" id={feature.slug} delay={(index % 2) * 60}>
@@ -116,10 +147,7 @@ function FeatureCard({ feature, index }) {
 
         <div className="feature-card__details">
           {feature.details.map((detail, detailIndex) => (
-            <details key={detail.label} open={detailIndex === 0}>
-              <summary>{detail.label}</summary>
-              <p>{detail.body}</p>
-            </details>
+            <FeatureDetail key={detail.label} detail={detail} defaultOpen={detailIndex === 0} />
           ))}
         </div>
 

@@ -18,18 +18,8 @@ export const designNotes = [
 
 export const lineage = [
   {
-    name: "lite",
-    role: "The original tiny editor. One C file, Lua everywhere, no ceremony.",
-    date: "2019",
-  },
-  {
-    name: "Lite XL",
-    role: "The community fork that added plugins, themes, cross-platform polish, and a real ecosystem.",
-    date: "2020",
-  },
-  {
     name: "T Code",
-    role: "The desktop workflow layer: native menus, integrated terminal, live themes, and a 5 MB footprint.",
+    role: "A small C core with Lua for the editor, native menus, integrated terminal, live themes, and a 5 MB footprint.",
     date: "2026",
   },
 ];

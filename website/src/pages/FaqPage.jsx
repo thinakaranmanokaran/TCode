@@ -10,6 +10,7 @@ import {
   graphSchema,
   websiteSchema,
   softwareSchema,
+  personSchema,
   breadcrumbSchema,
   faqSchema,
 } from "../data/schema.js";
@@ -17,6 +18,7 @@ import {
 const schema = graphSchema([
   websiteSchema,
   softwareSchema,
+  personSchema,
   breadcrumbSchema([
     { name: "Home", path: "/" },
     { name: "FAQ", path: "/faq" },
@@ -29,7 +31,7 @@ export function FaqPage() {
     <>
       <PageMeta
         title="T Code FAQ — Downloads, Plugins & Portable Mode"
-        description="Answers about T Code: what it is, platform support, download options, portable mode, Lite XL plugins, themes, and how to build from source."
+        description="Answers about T Code: what it is, platform support, download options, portable mode, plugins, themes, and how to build from source."
         path="/faq"
       />
       <JsonLd data={schema} />

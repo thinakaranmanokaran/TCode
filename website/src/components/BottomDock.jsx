@@ -1,5 +1,5 @@
+import { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { ArrowUp } from "lucide-react";
 
 const items = [
   { label: "Features", href: "/features", mobile: true },
@@ -10,16 +10,29 @@ const items = [
 
 export function BottomDock() {
   const location = useLocation();
+  const [footerVisible, setFooterVisible] = useState(false);
 
-  const scrollTop = () => {
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  };
+  useEffect(() => {
+    if (typeof window === "undefined" || !("IntersectionObserver" in window)) {
+      return;
+    }
+    const footer = document.querySelector("footer.site-footer");
+    if (!footer) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => setFooterVisible(entry.isIntersecting),
+      { threshold: 0 },
+    );
+    observer.observe(footer);
+    return () => observer.disconnect();
+  }, [location.pathname]);
 
   return (
-    <nav className="dock" aria-label="Main navigation">
-      <button className="dock__circle" type="button" onClick={scrollTop} aria-label="Back to top">
-        <ArrowUp size={17} strokeWidth={1.7} />
-      </button>
+    <nav
+      className={`dock${footerVisible ? " is-hidden" : ""}`}
+      aria-label="Main navigation"
+      aria-hidden={footerVisible || undefined}
+    >
       {items.map((item) => {
         const active =
           location.pathname === item.href || location.pathname.startsWith(`${item.href}/`);
@@ -36,6 +49,7 @@ export function BottomDock() {
               .filter(Boolean)
               .join(" ")}
             aria-current={active ? "page" : undefined}
+            tabIndex={footerVisible ? -1 : undefined}
           >
             {item.label}
           </Link>

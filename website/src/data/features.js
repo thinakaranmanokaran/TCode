@@ -149,7 +149,7 @@ export const features = [
     details: [
       {
         label: "What it does",
-        body: "T Code keeps the original Lite XL architecture: a small C core for rendering, input, and the filesystem, with Lua for the editor and plugins.",
+        body: "T Code uses a small C core for rendering, input, and the filesystem, with Lua for the editor and plugins.",
       },
       {
         label: "Why it matters",
@@ -165,22 +165,22 @@ export const features = [
     slug: "plugins",
     number: "07",
     category: "Ecosystem",
-    title: "Lite XL plugins. T Code polish.",
+    title: "Plugins. T Code polish.",
     description:
-      "Keep the Lite XL plugin ecosystem and color themes you already use, then add a native terminal, menus, and a modern workflow.",
+      "Keep the plugin ecosystem and color themes you already use, then add a native terminal, menus, and a modern workflow.",
     specs: [
-      { label: "Compatibility", value: "Lite XL mod-version 4 plugins" },
-      { label: "Themes", value: "24 bundled + Lite XL color themes" },
+      { label: "Compatibility", value: "Mod-version 4 plugins" },
+      { label: "Themes", value: "24 bundled + third-party themes" },
       { label: "License", value: "MIT" },
     ],
     details: [
       {
         label: "What it does",
-        body: "T Code stays compatible with the Lite XL plugin API and the wider Lite XL ecosystem. Drop a plugin into your user module or install it with lpm.",
+        body: "T Code stays compatible with the mod-version 4 plugin API. Drop a plugin into your user module or install it with lpm.",
       },
       {
         label: "Why it matters",
-        body: "You do not have to choose between a small editor and an ecosystem. T Code inherits both.",
+        body: "You do not have to choose between a small editor and an ecosystem. T Code offers both.",
       },
     ],
     image: "/images/screenshots/editor.webp",

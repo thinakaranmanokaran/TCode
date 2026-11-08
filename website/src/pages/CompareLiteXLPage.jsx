@@ -9,6 +9,7 @@ import {
   graphSchema,
   websiteSchema,
   softwareSchema,
+  personSchema,
   breadcrumbSchema,
   articleSchema,
 } from "../data/schema.js";
@@ -16,6 +17,7 @@ import {
 const schema = graphSchema([
   websiteSchema,
   softwareSchema,
+  personSchema,
   articleSchema({
     title: "Lite XL vs T Code: what's new and who should switch",
     description:
@@ -38,7 +40,7 @@ const rows = [
   ["Integrated terminal", "Plugin / external", "Built in with tabs and shell profiles"],
   ["Theme preview", "Select and apply", "Hover to preview, click to keep"],
   ["Explorer actions", "Core actions", "New, rename, delete, reveal, copy path, split, pin"],
-  ["Plugin compatibility", "Lite XL API", "Lite XL API (mod-version 4)"],
+  ["Plugin compatibility", "Mod-version 4 plugins", "Mod-version 4 plugins + built-in workflow"],
   ["Windows binary", "About 5 MB", "About 5 MB"],
 ];
 
@@ -47,9 +49,13 @@ export function CompareLiteXLPage() {
     <>
       <PageMeta
         title="Lite XL vs T Code — What's New and Who Should Switch"
-        description="T Code is built on Lite XL. Compare the interface, integrated terminal, themes, plugin compatibility, and performance to decide which editor fits your workflow."
+        description="Compare Lite XL and T Code on interface, integrated terminal, themes, plugin compatibility, and performance to decide which editor fits your workflow."
         path="/compare/lite-xl-vs-t-code"
         type="article"
+        publishedTime="2026-11-07"
+        modifiedTime="2026-11-07"
+        keywords="Lite XL vs T Code, lightweight editor comparison, C Lua editor"
+        imageAlt="Lite XL vs T Code comparison"
       />
       <JsonLd data={schema} />
 
@@ -57,22 +63,21 @@ export function CompareLiteXLPage() {
         eyebrow="Comparison · Lite XL vs T Code"
         title={
           <>
-            Same core.
+            Two editors.
             <br />
-            More <em>workflow.</em>
+            Different <em>priorities.</em>
           </>
         }
-        sub="T Code is a fork of Lite XL. The editor underneath is familiar; the desktop experience on top is not. Here is the honest difference."
-        meta={["MIT licensed", "Same plugin API", "About 5 MB"]}
+        sub="Lite XL and T Code are both small, fast, Lua-extensible editors. Here is how their workflows compare."
+        meta={["MIT licensed", "Mod-version 4 plugins", "About 5 MB"]}
       />
 
       <section className="site-container" style={{ paddingBottom: 80 }}>
         <div className="prose" style={{ marginLeft: 0 }}>
           <p>
-            Lite XL is the reason T Code exists. It is a small, fast, Lua-extensible
-            editor with a dedicated community and a plugin ecosystem that has been
-            growing for years. T Code does not replace that foundation; it builds
-            a desktop workflow on top of it.
+            Both Lite XL and T Code are small, fast, Lua-extensible editors
+            with active plugin ecosystems. This page compared their desktop
+            workflows side by side.
           </p>
 
           <table className="compare-table">
@@ -94,27 +99,24 @@ export function CompareLiteXLPage() {
             </tbody>
           </table>
 
-          <h2>What stays the same</h2>
+          <h2>Shared ground</h2>
           <p>
-            The core architecture is the same: a C rendering and input layer, Lua
-            for the editor, a single-file color theme format, and the Lite XL
-            plugin API. If you already use Lite XL plugins, many of them will work
-            in T Code without changes. If you already have a color theme, you can
-            keep it.
+            Both use a C rendering and input layer with Lua for the editor, a
+            single-file color theme format, and a mod-version 4 plugin API. If you
+            use plugins and themes in one, many will work in the other without
+            changes.
           </p>
 
-          <h2>What is different</h2>
+          <h2>Where they differ</h2>
           <p>
-            T Code adds the parts of a desktop editor that Lite XL leaves to
-            plugins or configuration: a native menu bar, a vertical activity bar,
-            an integrated terminal with tabs and shell profiles, live theme
-            previews, a Selection menu for multi-cursor work, and a much richer
-            Explorer and tab context menu.
+            T Code ships with desktop workflow features included: a native menu
+            bar, a vertical activity bar, an integrated terminal with tabs and
+            shell profiles, live theme previews, a Selection menu for
+            multi-cursor work, and Explorer and tab context menus.
           </p>
           <p>
-            The result is not a different editor philosophy. It is the same
-            philosophy with fewer gaps between what you want to do and where the
-            command lives.
+            The result is a difference in defaults: one editor leans minimal and
+            plugin-driven, the other ships the full desktop workflow in the box.
           </p>
 
           <h2>Which should you use?</h2>
@@ -126,8 +128,7 @@ export function CompareLiteXLPage() {
           <p>
             Choose <strong>T Code</strong> if you want a native menu bar, an
             integrated terminal, a modern Explorer, and theme previews without
-            assembling them yourself — while keeping the same core, plugin API,
-            and roughly the same footprint.
+            assembling them yourself, in a similar 5 MB footprint.
           </p>
           <p>
             You can read the <Link to="/blog/lite-xl-vs-t-code">longer comparison</Link>{" "}
@@ -137,12 +138,12 @@ export function CompareLiteXLPage() {
       </section>
 
       <SectionCta
-        kicker="Try the fork"
+        kicker="Try T Code"
         title={
           <>
-            Keep the core.
+            Open it today.
             <br />
-            <em>Upgrade</em> the workflow.
+            <em>Feel</em> the workflow.
           </>
         }
         actions={

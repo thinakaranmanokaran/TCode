@@ -10,13 +10,13 @@ export function Lineage() {
       <div className="site-container">
         <Reveal className="lineage__head">
           <h2 className="display lineage__title">
-            <em>Where</em>
+            <em>How</em>
             <br />
-            it comes from
+            it works
           </h2>
           <div className="lineage__aside">
-            T Code did not start from zero. It stands on two small editors and a
-            community that cares about software staying small.
+            A small C core for rendering and input, with Lua for the editor and
+            plugins. No bundled browser, no account, no waiting.
             <div style={{ marginTop: 22, color: "var(--lime)" }}>
               <ArrowSketch style={{ width: 72, height: 46 }} />
             </div>

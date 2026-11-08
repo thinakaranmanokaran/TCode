@@ -7,6 +7,7 @@ import { siteConfig } from "../data/site.js";
 import {
   graphSchema,
   websiteSchema,
+  personSchema,
   breadcrumbSchema,
   articleSchema,
 } from "../data/schema.js";
@@ -14,6 +15,7 @@ import {
 function ArticleShell({ title, description, path, eyebrow, date, readTime, children }) {
   const schema = graphSchema([
     websiteSchema,
+    personSchema,
     articleSchema({ title, description, path, date }),
     breadcrumbSchema([
       { name: "Home", path: "/" },
@@ -24,7 +26,15 @@ function ArticleShell({ title, description, path, eyebrow, date, readTime, child
 
   return (
     <>
-      <PageMeta title={`${title} | T Code`} description={description} path={path} type="article" />
+      <PageMeta
+        title={`${title} | T Code`}
+        description={description}
+        path={path}
+        type="article"
+        publishedTime={date}
+        modifiedTime={date}
+        imageAlt={`${title} — T Code blog by Thinakaran Manokaran`}
+      />
       <JsonLd data={schema} />
 
       <article>
@@ -156,10 +166,10 @@ export function BlogLightweightPage() {
         into a platform.
       </p>
       <p>
-        T Code is an example of that approach. It keeps Lite XL’s core and plugin
-        API, then adds the desktop pieces that used to require a second tool: a
-        native menu bar, an integrated terminal, an activity bar, Explorer and tab
-        context menus, multi-cursor tools, and 24 themes with live preview.
+        T Code is an example of that approach: a C core with Lua, a mod-version
+        4 plugin API, and the desktop pieces that used to require a second tool:
+        a native menu bar, an integrated terminal, an activity bar, Explorer and
+        tab context menus, multi-cursor tools, and 24 themes with live preview.
       </p>
       <p>
         None of those features require an Electron runtime. They require a team
@@ -191,34 +201,33 @@ export function BlogLiteXLPage() {
   return (
     <ArticleShell
       title="Lite XL vs T Code: what's new and who should switch"
-      description="T Code is built on Lite XL. Here is an honest look at what changed, what stayed the same, and which editor fits your workflow."
+      description="Compare Lite XL and T Code on workflow, features, and footprint to decide which editor fits your workflow."
       path="/blog/lite-xl-vs-t-code"
       eyebrow="Comparison"
       date="2026-11-07"
       readTime="7 min read"
     >
       <p>
-        T Code is a fork of Lite XL. That sentence answers the first question and
-        creates the next one: if the core is the same, why switch? The short
-        answer is workflow. The longer answer is the list below.
+        Two lightweight editors, two workflows: why choose one over the other?
+        The short answer is workflow defaults. The longer answer is the list
+        below.
       </p>
 
       <h2>What Lite XL gets right</h2>
       <p>
-        Lite XL is a remarkable piece of software. It is small, fast, and
+        Both editors are remarkable in their restraint: small, fast, and
         extensible in a way that most editors are not. The C core stays out of the
         way. Lua handles the editor logic. A color theme is a single readable file.
         A plugin can change the interface without rebuilding the application.
       </p>
       <p>
         If you already use Lite XL with a carefully tuned user module, you have a
-        setup that is genuinely yours. T Code is not trying to take that away.
+        setup that is genuinely yours.
       </p>
 
-      <h2>What T Code adds</h2>
+      <h2>What T Code emphasizes</h2>
       <p>
-        T Code keeps the Lite XL core and plugin API, then adds a desktop workflow
-        layer:
+        T Code emphasizes a desktop workflow out of the box:
       </p>
       <ul>
         <li>A VS Code-style menu bar with File, Edit, Selection, View, Go, Run, Terminal, and Help.</li>
@@ -235,41 +244,39 @@ export function BlogLiteXLPage() {
         palette, and the same window.
       </p>
 
-      <h2>What stays the same</h2>
+      <h2>Shared ground</h2>
       <p>
-        The core architecture is unchanged. T Code is still a C and Lua editor.
-        The Windows binary is still about 5 MB. The Lite XL plugin API remains
-        compatible at mod-version 4. The color theme format is still a Lua file.
-        The source is still MIT licensed.
+        Both are C and Lua editors of about 5 MB on Windows. The plugin API
+        (mod-version 4) and the color theme format (a single Lua file) are shared,
+        and the source is MIT licensed.
       </p>
       <p>
-        That means the migration cost is low. If you already have a Lite XL
-        configuration, many of your plugins and themes will work. The main
-        difference is the interface around them.
+        That means switching cost is low: if you move between the two, many
+        plugins and themes carry over. The main difference is the interface
+        around them.
       </p>
 
       <h2>Who should switch</h2>
       <p>
         Switch to T Code if you want a native menu bar, an integrated terminal,
         and a richer Explorer without building that workflow yourself. Switch if
-        you like the Lite XL core but find yourself opening a separate terminal or
-        a second file manager every day.
+        you like the lightweight core but find yourself opening a separate
+        terminal or a second file manager every day.
       </p>
 
       <h2>Who should stay on Lite XL</h2>
       <p>
         Stay on Lite XL if you want the smallest possible base, you enjoy hand
         assembling a user module, or you depend on a plugin that has not been
-        tested with T Code. Lite XL is not obsolete. It is a different point on
-        the same curve.
+        tested with T Code.
       </p>
 
       <h2>The honest summary</h2>
       <p>
-        T Code is not “better” in every dimension. It is Lite XL with a stronger
-        opinion about desktop workflow. If that opinion matches how you work, you
-        will feel the difference immediately. If it does not, Lite XL remains an
-        excellent editor.
+        Neither editor is “better” in every dimension. T Code focuses more on
+        desktop workflow out of the box. If that matches how you work, you will
+        feel the difference immediately. If it does not, both remain excellent
+        lightweight editors.
       </p>
       <p>
         You can compare the two side by side on the{" "}

@@ -1,0 +1,130 @@
+name: Build (Windows / macOS / Linux)
+
+on:
+  push:
+    branches: ["main"]
+  pull_request:
+  workflow_dispatch:
+    inputs:
+      production:
+        description: "Production build (--production)"
+        type: boolean
+        default: true
+
+permissions:
+  contents: read
+
+concurrency:
+  group: "build-${{ github.ref }}"
+  cancel-in-progress: false
+
+jobs:
+  build:
+    name: ${{ matrix.os }} / ${{ matrix.arch }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          # Windows x86_64 (MSYS2 UCRT64 via actions)
+          - os: windows-latest
+            arch: x86_64
+            shell: msys64
+
+          # Linux x86_64 + aarch64
+          - os: ubuntu-latest
+            arch: x86_64
+            shell: bash
+          - os: ubuntu-24.04-arm
+            arch: aarch64
+            shell: bash
+
+          # macOS Intel + Apple Silicon
+          - os: macos-13
+            arch: x86_64
+            shell: bash
+          - os: macos-latest
+            arch: aarch64
+            shell: bash
+
+    defaults:
+      run:
+        shell: ${{ matrix.shell }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      # ---- Windows (MSYS2) ----
+      - name: Set up MSYS2 (Windows only)
+        if: runner.os == 'Windows'
+        uses: msys2/setup-msys2@v2
+        with:
+          msystem: UCRT64
+          update: true
+          install: >-
+            mingw-w64-ucrt-x86_64-gcc
+            mingw-w64-ucrt-x86_64-meson
+            mingw-w64-ucrt-x86_64-ninja
+            mingw-w64-ucrt-x86_64-cmake
+            mingw-w64-ucrt-x86_64-pkg-config
+            mingw-w64-ucrt-x86_64-SDL3
+            mingw-w64-ucrt-x86_64-pcre2
+            mingw-w64-ucrt-x86_64-freetype
+            mingw-w64-ucrt-x86_64-lua
+            mingw-w64-ucrt-x86_64-nsis
+            dos2unix
+            curl
+            tar
+            zip
+          release: false
+
+      # ---- Linux ----
+      - name: Install dependencies (Ubuntu)
+        if: runner.os == 'Linux'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y \
+            meson ninja-build gcc pkg-config cmake \
+            libsdl3-dev libpcre2-dev libfreetype-dev lua5.4-dev \
+            libx11-dev libwayland-dev \
+            dpkg-dev rpm zip curl tar
+
+      # ---- macOS ----
+      - name: Install dependencies (macOS)
+        if: runner.os == 'macOS'
+        run: |
+          brew install meson ninja cmake flex bison curl tar zip
+          # SDL3/Pcre2/FreeType/Lua come via Meson wraps (--forcefallback);
+          # or optionally: brew install sdl3 pcre2 freetype lua
+
+      - name: Verify toolchain
+        run: |
+          meson --version
+          ninja --version
+          cmake --version || true
+          echo "arch: ${{ matrix.arch }}"
+
+      - name: Build + package (production)
+        run: |
+          if [ "${{ github.event.inputs.production || 'true' }}" = "true" ]; then
+            bash application/scripts/package.sh --production
+          else
+            bash application/scripts/package.sh
+          fi
+          echo "=== application/dist ==="
+          ls -lh application/dist || true
+          echo "=== artifacts ==="
+          ls -lh application/dist/* || true
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: tcode-${{ matrix.os }}-${{ matrix.arch }}
+          path: |
+            application/dist/
+          if-no-files-found: error
+          retention-days: 30
+
+      - name: Copy to application/builds (local parity)
+        if: always()
+        run: mkdir -p application/builds && cp -a application/dist/* application/builds/ 2>/dev/null || true

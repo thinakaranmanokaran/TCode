@@ -10,12 +10,14 @@ import {
   graphSchema,
   websiteSchema,
   softwareSchema,
+  personSchema,
   breadcrumbSchema,
 } from "../data/schema.js";
 
 const schema = graphSchema([
   websiteSchema,
   softwareSchema,
+  personSchema,
   breadcrumbSchema([
     { name: "Home", path: "/" },
     { name: "Download", path: "/download" },
@@ -65,6 +67,8 @@ export function DownloadPage() {
         title="Download T Code — Free Editor for Windows, Linux & macOS"
         description="Download T Code 2.1.7 for Windows, Linux, or macOS. Portable builds, installers, AppImage, and DMG packages. Free, open source, and about 5 MB."
         path="/download"
+        keywords="download T Code, free code editor, Windows editor, Linux editor, macOS editor, portable editor"
+        imageAlt="Download T Code for Windows Linux and macOS"
       />
       <JsonLd data={schema} />
 
@@ -193,7 +197,7 @@ meson compile -C application/build`}
               }}
             >
               <li>A full editor in about 5 MB</li>
-              <li>24 bundled themes and Lite XL theme support</li>
+              <li>24 bundled themes and third-party theme support</li>
               <li>Integrated terminal, menus, multi-cursor, and project search</li>
               <li>MIT licensed source code and a plugin ecosystem</li>
             </ul>

@@ -31,7 +31,7 @@ export const blogPosts = [
     slug: "lite-xl-vs-t-code",
     title: "Lite XL vs T Code: what's new and who should switch",
     description:
-      "T Code is built on Lite XL. Here is an honest look at what changed, what stayed the same, and which editor fits your workflow.",
+      "Compare Lite XL and T Code on features, workflow, and footprint to decide which editor fits your workflow.",
     date: "2026-11-07",
     readTime: "7 min read",
     category: "Comparison",

@@ -36,7 +36,7 @@ export const siteConfig = {
     github: "https://github.com/thinakaranmanokaran/TCode",
     releases: "https://github.com/thinakaranmanokaran/TCode/releases/latest",
     portfolio: "https://thinakaran.dev",
-    linkedin: "https://www.linkedin.com/in/thinakaran-manohar",
+    linkedin: "https://www.linkedin.com/in/thinakaran-manokaran",
     dev: "https://dev.to/thinakaran",
     githubProfile: "https://github.com/thinakaranmanokaran",
     email: "dheenamanohar@gmail.com",

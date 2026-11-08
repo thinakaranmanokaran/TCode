@@ -30,9 +30,11 @@ export function AboutPage() {
   return (
     <>
       <PageMeta
-        title="About T Code — Built on Lite XL by Thinakaran"
-        description="Why T Code exists, how it is built on Lite XL and lite, and what a small, fast, native code editor can do on Windows, Linux, and macOS."
+        title="About T Code — by Thinakaran Manokaran"
+        description="Why T Code exists and what a small, fast, native code editor can do on Windows, Linux, and macOS."
         path="/about"
+        keywords="About T Code, Thinakaran Manokaran, why lightweight editor, code editor story"
+        imageAlt="About T Code by Thinakaran Manokaran"
       />
       <JsonLd data={schema} />
 
@@ -48,7 +50,7 @@ export function AboutPage() {
             </>
           }
           sub="A small editor, a stubborn idea, and a developer who wanted the tools to get out of the way."
-          meta={["Built on Lite XL", "MIT licensed", "2026"]}
+          meta={["Lightweight editor", "MIT licensed", "2026"]}
         />
 
         <section className="site-container" style={{ paddingBottom: 90 }}>
@@ -61,13 +63,12 @@ export function AboutPage() {
                 Waiting for an update notification to finish deciding something.
               </p>
               <p>
-                The editor I wanted already existed in spirit.{" "}
-                <span className="story-highlight">Lite XL</span> proved that a
-                code editor could be small, fast, and extensible without
-                apologizing for it. What it did not have was the desktop
-                workflow I used every day: a native menu bar, a proper
-                activity bar, an integrated terminal, live theme previews, and
-                the small Explorer actions that make a project feel finished.
+                The editor I wanted had to prove that a code editor could be
+                small, fast, and extensible without apologizing for it — and
+                still ship the desktop workflow I used every day: a native menu
+                bar, a proper activity bar, an integrated terminal, live theme
+                previews, and the small Explorer actions that make a project feel
+                finished.
               </p>
             </Reveal>
 
@@ -81,7 +82,7 @@ export function AboutPage() {
             <Reveal>
               <h2>Start with the core, not the chrome</h2>
               <p>
-                T Code keeps the Lite XL architecture: a compact C core for
+                T Code uses a compact architecture: a small C core for
                 rendering, input, the filesystem, and the window; Lua for the
                 editor, commands, and extensions. That decision is why the
                 Windows binary is about <strong>5 MB</strong> and why the
@@ -109,8 +110,7 @@ export function AboutPage() {
               </p>
               <h2>Built in the open</h2>
               <p>
-                T Code is released under the MIT license and built on the work
-                of the Lite XL and lite communities. The plugin API stays
+                T Code is released under the MIT license. The plugin API stays
                 compatible, the color theme format stays a single Lua file, and
                 the source stays readable. If you want to change something, you
                 can.

@@ -11,6 +11,7 @@ import {
   graphSchema,
   websiteSchema,
   softwareSchema,
+  personSchema,
   breadcrumbSchema,
 } from "../data/schema.js";
 
@@ -30,6 +31,7 @@ const itemList = {
 const schema = graphSchema([
   websiteSchema,
   softwareSchema,
+  personSchema,
   breadcrumbSchema([
     { name: "Home", path: "/" },
     { name: "Themes", path: "/themes" },
@@ -47,6 +49,8 @@ export function ThemesPage() {
         title="T Code Themes — 24 Built-in Light & Dark Themes"
         description="Browse all 24 themes bundled with T Code: 10 Bearded Theme variations, 10 Monokai variations, plus Default, Fall, Summer, and Textadept."
         path="/themes"
+        keywords="T Code themes, Bearded Theme, Monokai themes, dark themes, light themes, code editor themes"
+        imageAlt="T Code 24 built-in themes"
       />
       <JsonLd data={schema} />
 
@@ -119,7 +123,7 @@ export function ThemesPage() {
               colors all come from the same hand-tuned palette.
             </p>
             <p style={{ color: "rgba(250,250,250,.66)", fontSize: 17, lineHeight: 1.7 }}>
-              You can also drop in any Lite XL color theme. The format is a
+              You can also drop in any color theme. The format is a
               single Lua file, which means a new theme takes minutes, not a
               release cycle.
             </p>

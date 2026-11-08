@@ -54,6 +54,8 @@ export function DeveloperPage() {
         title="Thinakaran Manokaran — Developer & Creator of T Code"
         description="Thinakaran Manokaran (Dheena) is a full-stack developer from Thanjavur, Tamil Nadu, and the creator of T Code. MERN, React Native, and developer tools."
         path="/developer"
+        keywords="Thinakaran Manokaran, Dheena, full stack developer, MERN developer, T Code creator"
+        imageAlt="Thinakaran Manokaran developer portrait"
       />
       <JsonLd data={schema} />
 

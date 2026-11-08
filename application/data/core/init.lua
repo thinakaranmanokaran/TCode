@@ -160,7 +160,7 @@ local style = require "core.style"
 -- schemes and fonts.
 -- USERDIR is the location of the T Code configuration directory.
 --
--- font names used by lite:
+-- font names used by T Code:
 -- style.font          : user interface
 -- style.big_font      : big text in welcome screen
 -- style.icon_font     : icons
