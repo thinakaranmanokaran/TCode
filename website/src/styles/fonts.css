@@ -4,6 +4,7 @@
   font-style: normal;
   font-weight: 200 800;
   font-display: swap;
+  unicode-range: U+0000-00FF, U+2000-206F, U+2190-21FF;
 }
 
 @font-face {
@@ -12,6 +13,7 @@
   font-style: normal;
   font-weight: 400;
   font-display: swap;
+  unicode-range: U+0000-00FF, U+2000-206F;
 }
 
 @font-face {
@@ -20,6 +22,7 @@
   font-style: italic;
   font-weight: 400;
   font-display: swap;
+  unicode-range: U+0000-00FF, U+2000-206F;
 }
 
 @font-face {
@@ -28,6 +31,7 @@
   font-style: normal;
   font-weight: 300;
   font-display: swap;
+  unicode-range: U+0000-00FF, U+2000-206F;
 }
 
 @font-face {
@@ -36,6 +40,7 @@
   font-style: normal;
   font-weight: 400;
   font-display: swap;
+  unicode-range: U+0000-00FF, U+2000-206F;
 }
 
 @font-face {
@@ -44,4 +49,26 @@
   font-style: normal;
   font-weight: 500;
   font-display: swap;
+  unicode-range: U+0000-00FF, U+2000-206F;
+}
+
+@font-face {
+  /* Fallback tuned so swapping to Instrument Serif does not shift the
+     hero <em> (desktop CLS 0.116, 0.104 from em alone). Instrument has a
+     larger x-height and condensed width vs Georgia — size-adjust pads it. */
+  font-family: "Serif Fallback";
+  src: local("Georgia"), local("Times New Roman");
+  size-adjust: 103%;
+  ascent-override: 82%;
+  descent-override: 18%;
+  line-gap-override: 0%;
+}
+
+@font-face {
+  font-family: "Mono Fallback";
+  src: local("Consolas"), local("Menlo"), local("monospace");
+  size-adjust: 98%;
+  ascent-override: 86%;
+  descent-override: 14%;
+  line-gap-override: 0%;
 }

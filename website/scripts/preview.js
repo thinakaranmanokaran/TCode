@@ -72,9 +72,18 @@ const server = createServer(async (req, res) => {
   }
 
   const ext = path.extname(file);
+  // 1-year immutable for hashed/static assets — matches _headers/vercel.json
+  // in production, so local Lighthouse cache-insight audit reflects real cache
+  // behaviour (local 7-day header produced false "wasted bytes" findings).
+  const isAsset = /^\/(assets|fonts|brand|images)\//.test("/" + path.relative(dist, file).replaceAll("\\", "/"));
   res.writeHead(200, {
     "Content-Type": types[ext] || "application/octet-stream",
-    "Cache-Control": ext === ".html" ? "no-cache" : "public, max-age=604800",
+    "Cache-Control":
+      ext === ".html"
+        ? "no-cache"
+        : isAsset
+          ? "public, max-age=31536000, immutable"
+          : "public, max-age=86400",
   });
   createReadStream(file).pipe(res);
 });

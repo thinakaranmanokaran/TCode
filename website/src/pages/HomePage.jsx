@@ -40,7 +40,6 @@ export function HomePage() {
           <span>v{siteConfig.version} · {siteConfig.license}</span>
           <span>Built by Thinakaran Manokaran</span>
         </div>
-        <div className="hero__scroll">Scroll to explore</div>
       </section>
 
       <section className="manifesto">

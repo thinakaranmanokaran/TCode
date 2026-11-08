@@ -77,16 +77,27 @@ function FeatureVisual({ feature }) {
   }
 
   const size = imageSizes[feature.image] || { width: 1200, height: 645 };
+  const baseName = feature.image.replace(/\.webp$/, "");
+  const srcSetName = `${baseName}-480.webp 480w, ${baseName}-640.webp 640w, ${baseName}-768.webp 768w, ${feature.image} ${size.width}w`;
 
   return (
     <img
       className="feature-card__shot"
       src={assetPath(feature.image)}
+      srcSet={srcSetName
+        .split(", ")
+        .map((part) => {
+          const [p, d] = part.split(" ");
+          return `${assetPath(p)} ${d}`;
+        })
+        .join(", ")}
+      sizes="(max-width: 760px) calc(100vw - 40px), (max-width: 1100px) 55vw, 620px"
       alt={feature.imageAlt}
       width={size.width}
       height={size.height}
       loading="lazy"
       decoding="async"
+      fetchPriority="low"
     />
   );
 }
@@ -152,8 +163,15 @@ function FeatureCard({ feature, index }) {
         </div>
 
         <div className="feature-card__cta">
-          <Link className="link-arrow" to={feature.href}>
-            Explore feature <ArrowUpRight size={16} strokeWidth={1.6} />
+          {/* Visible label must be part of the accessible name (WCAG 2.5.3 /
+              axe label-content-name-mismatch). aria-label therefore starts
+              with the visible "Explore feature" text. */}
+          <Link
+            className="link-arrow"
+            to={feature.href}
+            aria-label={`Explore feature: ${feature.title.replace(/\.$/, "")}`}
+          >
+            Explore feature <ArrowUpRight size={16} strokeWidth={1.6} aria-hidden="true" />
           </Link>
         </div>
       </div>

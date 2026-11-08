@@ -1,23 +1,55 @@
+import { lazy } from "react";
 import { Layout } from "./components/Layout.jsx";
 import { HomePage } from "./pages/HomePage.jsx";
-import { FeaturesPage } from "./pages/FeaturesPage.jsx";
-import { ThemesPage } from "./pages/ThemesPage.jsx";
-import { DownloadPage } from "./pages/DownloadPage.jsx";
-import { AboutPage } from "./pages/AboutPage.jsx";
-import { DeveloperPage } from "./pages/DeveloperPage.jsx";
-import { ChangelogPage } from "./pages/ChangelogPage.jsx";
-import { FaqPage } from "./pages/FaqPage.jsx";
-import { CompareLiteXLPage } from "./pages/CompareLiteXLPage.jsx";
-import { CompareVSCodePage } from "./pages/CompareVSCodePage.jsx";
-import { BlogPage } from "./pages/BlogPage.jsx";
-import {
-  BlogLightweightPage,
-  BlogLiteXLPage,
-  BlogBuildPage,
-} from "./pages/BlogPosts.jsx";
-import { LicensePage } from "./pages/LicensePage.jsx";
-import { PrivacyPage } from "./pages/PrivacyPage.jsx";
-import { NotFoundPage } from "./pages/NotFoundPage.jsx";
+
+const FeaturesPage = lazy(() =>
+  import("./pages/FeaturesPage.jsx").then((m) => ({ default: m.FeaturesPage })),
+);
+const ThemesPage = lazy(() =>
+  import("./pages/ThemesPage.jsx").then((m) => ({ default: m.ThemesPage })),
+);
+const DownloadPage = lazy(() =>
+  import("./pages/DownloadPage.jsx").then((m) => ({ default: m.DownloadPage })),
+);
+const AboutPage = lazy(() =>
+  import("./pages/AboutPage.jsx").then((m) => ({ default: m.AboutPage })),
+);
+const DeveloperPage = lazy(() =>
+  import("./pages/DeveloperPage.jsx").then((m) => ({ default: m.DeveloperPage })),
+);
+const ChangelogPage = lazy(() =>
+  import("./pages/ChangelogPage.jsx").then((m) => ({ default: m.ChangelogPage })),
+);
+const FaqPage = lazy(() =>
+  import("./pages/FaqPage.jsx").then((m) => ({ default: m.FaqPage })),
+);
+const CompareLiteXLPage = lazy(() =>
+  import("./pages/CompareLiteXLPage.jsx").then((m) => ({ default: m.CompareLiteXLPage })),
+);
+const CompareVSCodePage = lazy(() =>
+  import("./pages/CompareVSCodePage.jsx").then((m) => ({ default: m.CompareVSCodePage })),
+);
+const BlogPage = lazy(() =>
+  import("./pages/BlogPage.jsx").then((m) => ({ default: m.BlogPage })),
+);
+const BlogLightweightPage = lazy(() =>
+  import("./pages/BlogPosts.jsx").then((m) => ({ default: m.BlogLightweightPage })),
+);
+const BlogLiteXLPage = lazy(() =>
+  import("./pages/BlogPosts.jsx").then((m) => ({ default: m.BlogLiteXLPage })),
+);
+const BlogBuildPage = lazy(() =>
+  import("./pages/BlogPosts.jsx").then((m) => ({ default: m.BlogBuildPage })),
+);
+const LicensePage = lazy(() =>
+  import("./pages/LicensePage.jsx").then((m) => ({ default: m.LicensePage })),
+);
+const PrivacyPage = lazy(() =>
+  import("./pages/PrivacyPage.jsx").then((m) => ({ default: m.PrivacyPage })),
+);
+const NotFoundPage = lazy(() =>
+  import("./pages/NotFoundPage.jsx").then((m) => ({ default: m.NotFoundPage })),
+);
 
 export const routes = [
   {

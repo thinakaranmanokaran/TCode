@@ -30,13 +30,27 @@ for (const shot of screenshots) {
   const width = shot.width || meta.width;
   const height = Math.min(shot.height, meta.height - shot.top);
 
+  const mainPath = path.join(out, shot.output);
   await sharp(input)
     .extract({ left, top: shot.top, width, height })
     .resize({ width: Math.min(width, 1400) })
     .webp({ quality: 88, effort: 5 })
-    .toFile(path.join(out, shot.output));
+    .toFile(mainPath);
 
   console.log(`optimized ${shot.output} (${width}x${height})`);
+
+  // Responsive derivatives referenced by FeatureShowcase srcSet.
+  // -640 bridges 480 → 768 so 1.75× mobile (≈588 CSS px) doesn't jump to
+  // a 768 file (Lighthouse image-delivery "wasted bytes").
+  for (const w of [480, 640, 768]) {
+    if (w >= width) continue;
+    const name = shot.output.replace(/\.webp$/, `-${w}.webp`);
+    await sharp(mainPath)
+      .resize({ width: w })
+      .webp({ quality: 85, effort: 5 })
+      .toFile(path.join(out, name));
+    console.log(`  derivative ${name}`);
+  }
 }
 
 // Blue T mark used in the header and favicons.

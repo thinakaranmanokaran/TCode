@@ -61,7 +61,7 @@ export function SiteFooter() {
       <div className="site-container site-footer__inner">
         <div className="site-footer__grid">
           <div className="site-footer__brand">
-            <Link to="/" className="site-footer__brandRow" aria-label="T Code home">
+            <Link to="/" className="site-footer__brandRow">
               <img src={assetPath("/brand/logo-mark.svg")} alt="" width="28" height="28" />
               <span className="site-footer__brandName">T Code</span>
               <span className="site-footer__version">v{siteConfig.version} · {siteConfig.license}</span>

@@ -8,10 +8,23 @@
     <link rel="icon" href="/brand/logo-mark.svg" type="image/svg+xml" />
     <link rel="apple-touch-icon" href="/brand/apple-touch-icon.png" />
     <link rel="manifest" href="/site.webmanifest" />
-    <link rel="preload" href="/fonts/plus-jakarta-sans.woff2" as="font" type="font/woff2" crossorigin />
     <link rel="preload" href="/fonts/instrument-serif-400.woff2" as="font" type="font/woff2" crossorigin />
     <link rel="preload" href="/fonts/instrument-serif-400-italic.woff2" as="font" type="font/woff2" crossorigin />
-    <link rel="preload" href="/fonts/geist-mono-400.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/fonts/plus-jakarta-sans.woff2" as="font" type="font/woff2" crossorigin />
+    <style>
+      /* Critical above-the-fold (hero) to unblock FCP/LCP */
+      html{background:#fafafa}
+      body{margin:0;background:#fafafa;color:#151515;font-family:"Plus Jakarta Sans",ui-sans-serif,system-ui,sans-serif;font-size:16px;font-weight:300;line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+      .site-container{width:min(1380px,calc(100% - 60px));margin-inline:auto}
+      .hero{min-height:92vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:120px 20px 80px;position:relative}
+      .display{font-family:"Instrument Serif",Georgia,serif;font-weight:400;letter-spacing:-.04em;line-height:.9}
+      .hero .display{font-size:clamp(56px,9vw,132px);max-width:1100px}
+      .hero .display em{font-style:italic;color:#4f7d24}
+      .hero__lead{max-width:680px;margin:28px auto 0;font-size:18px;line-height:1.55;color:#6f6f6f}
+      .hero__meta{margin-top:30px;font-family:"Geist Mono",monospace;font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:#6f6f6f;display:flex;gap:14px 26px;flex-wrap:wrap;justify-content:center;min-height:18px}
+      .topbar{position:fixed;inset:0 0 auto;display:flex;align-items:center;justify-content:space-between;padding:18px 22px;z-index:50}
+      .topbar__brand{display:flex;align-items:center;gap:10px;font-family:"Geist Mono",monospace;font-size:13px;font-weight:500}
+    </style>
     <script>
       document.documentElement.classList.add("js");
     </script>

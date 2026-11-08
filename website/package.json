@@ -20,6 +20,7 @@
   "devDependencies": {
     "@tailwindcss/vite": "^4.3.5",
     "@vitejs/plugin-react": "^6.2.1",
+    "beasties": "^0.1.0",
     "sharp": "^0.35.5",
     "tailwindcss": "^4.3.5",
     "vite": "^8.3.6"
