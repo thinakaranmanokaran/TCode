@@ -1,6 +1,6 @@
 Package: tcode
 Version: @VERSION@
-Architecture: amd64
+Architecture: @ARCH@
 Maintainer: Thinakaran Manokaran <https://thinakaran.dev/>
 Description: lightweight text editor written in Lua
  T Code is a lightweight text editor written mostly in Lua, on top of a

@@ -25,6 +25,7 @@ show_help() {
   echo "                          Created under 'application/'."
   echo "                          Default: 'application/$(get_default_build_dir)'."
   echo "-v --version VERSION      Sets the version on the package name."
+  echo "   --distdir DIR          Where to put the installer (default: repo root)."
   echo "   --debug                Debug this script."
   echo
 }
@@ -32,6 +33,7 @@ show_help() {
 main() {
   local build_dir="build"
   local version arch arch_file
+  local distdir=""
   local NOBUILD=false
 
   while [[ $# -gt 0 ]]; do
@@ -51,6 +53,10 @@ main() {
       -n|--nobuild)
         NOBUILD=true
         shift
+        ;;
+      --distdir)
+        distdir="$2"
+        shift 2
         ;;
       --debug)
         set -x
@@ -102,8 +108,33 @@ main() {
   version="${version:-$(get_project_version)}"
   local output="tcode-${version}-${arch_file}-windows-setup"
 
-  "/c/Program Files (x86)/Inno Setup 6/ISCC.exe" -dARCH=$arch //F"${output}" "${build_dir}/application/scripts/innosetup.iss"
-  pushd "${build_dir}/application/scripts"; mv tcode*.exe "${repo_root}"; popd
+  # Find ISCC (Program Files (x86) is the default install location).
+  local iscc=""
+  local candidate
+  for candidate in \
+    "/c/Program Files (x86)/Inno Setup 6/ISCC.exe" \
+    "/c/Program Files/Inno Setup 6/ISCC.exe"; do
+    if [[ -x "$candidate" ]]; then iscc="$candidate"; break; fi
+  done
+  if [[ -z "$iscc" ]] && command -v iscc >/dev/null 2>&1; then
+    iscc="$(command -v iscc)"
+  fi
+  if [[ -z "$iscc" ]]; then
+    echo "error: ISCC.exe (Inno Setup 6) not found." >&2
+    exit 1
+  fi
+
+  "$iscc" -dARCH=$arch //F"${output}" "${build_dir}/application/scripts/innosetup.iss"
+
+  local outdir="${distdir:-$repo_root}"
+  mkdir -p "$outdir"
+  pushd "${build_dir}/application/scripts" >/dev/null
+  for f in tcode*.exe; do
+    [[ -e "$f" ]] || continue
+    mv "$f" "$outdir/"
+    echo "InnoSetup installer -> $outdir/$f"
+  done
+  popd >/dev/null
 }
 
 main "$@"

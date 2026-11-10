@@ -141,15 +141,17 @@ main() {
       if command -v dpkg-deb >/dev/null 2>&1; then
         bash "${app_root}/scripts/package-installable.sh" --builddir "$builddir" --version "$ref" --format deb --distdir "$distdir" || echo "Warning: .deb build failed (skipped)"
       fi
-      if command -v rpmbuild >/dev/null 2>&1; then
-        bash "${app_root}/scripts/package-installable.sh" --builddir "$builddir" --version "$ref" --format rpm --distdir "$distdir" || echo "Warning: .rpm build failed (skipped)"
-      fi
+      # RPM packaging is available on demand via
+      #   package-installable.sh --format rpm
+      # and is intentionally not part of the default artifact set.
 
     elif [[ "$platform" == "windows" ]]; then
       # InnoSetup payload is the `tcode/` staging under the build dir.
       local i_file="$distdir/tcode-$ref-$arch-windows-setup.exe"
-      if [[ -x "/c/Program Files (x86)/Inno Setup 6/ISCC.exe" ]]; then
-        bash "${app_root}/scripts/package-innosetup.sh" --version "$ref" -b "build" || echo "Warning: InnoSetup build failed"
+      if [[ -x "/c/Program Files (x86)/Inno Setup 6/ISCC.exe" || -x "/c/Program Files/Inno Setup 6/ISCC.exe" ]] \
+        || command -v iscc >/dev/null 2>&1; then
+        bash "${app_root}/scripts/package-innosetup.sh" --version "$ref" -b "build" --distdir "$distdir" \
+          || echo "Warning: InnoSetup build failed"
       else
         echo "ISCC.exe not found; skipping installer (portable zip is the Windows installable fallback)."
       fi

@@ -1,6 +1,12 @@
 #!/usr/bin/env bash
-# AppImage builder (Linux). Expects a portable-layout build (flat).
+# AppImage builder (Linux).
+#
+# Works with either staging layout produced by build.sh:
+#   - portable  (prefix "/"   -> <destdir>/tcode + data/)
+#   - installable (prefix "/usr/local" -> <destdir>/usr/local/bin/tcode)
+#
 #   bash application/scripts/package-appimage.sh --version 2.1.7 -b build
+#   bash application/scripts/package-appimage.sh --nobuild --distdir application/dist
 set -e
 
 script_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
@@ -16,9 +22,12 @@ fi
 
 source "${app_root}/scripts/common.sh"
 
-ARCH="$(uname -m)"
-BUILD_DIR="$(get_default_build_dir)"
+ARCH="$(get_platform_arch)"
+BUILD_DIR="application/build"
+DIST_DIR=""
 VERSION=""
+NOBUILD=false
+PORTABLE=true
 
 show_help(){
   echo
@@ -27,12 +36,12 @@ show_help(){
   echo "Available options:"
   echo
   echo "-h --help                 Show this help and exits."
-  echo "-b --builddir DIRNAME     Sets the name of the build directory."
-  echo "                          Created under 'application/'."
-  echo "                          Default: 'application/$(get_default_build_dir)'."
+  echo "-b --builddir DIRNAME     Build directory (default: application/build)."
+  echo "   --distdir DIR          Output directory (default: repo root)."
   echo "   --debug                Debug this script."
-  echo "-n --nobuild              Skips the build step, use existing files."
-  echo "-v --version VERSION      Specify a version, non whitespace separated string."
+  echo "-n --nobuild              Skip building; reuse the existing build directory."
+  echo "-v --version VERSION      Version used in the artifact name."
+  echo "   --installable          Build the installable (FHS) layout instead of portable."
   echo
 }
 
@@ -46,6 +55,10 @@ while [[ $# -gt 0 ]]; do
       BUILD_DIR="$2"
       shift 2
       ;;
+    --distdir)
+      DIST_DIR="$2"
+      shift 2
+      ;;
     --debug)
       set -x
       shift
@@ -57,6 +70,10 @@ while [[ $# -gt 0 ]]; do
     -v|--version)
       VERSION="$2"
       shift 2
+      ;;
+    --installable)
+      PORTABLE=false
+      shift
       ;;
     *)
       echo "Unknown option: $1" >&2
@@ -72,10 +89,15 @@ case "${BUILD_DIR}" in
   *) BUILD_DIR="application/${BUILD_DIR}" ;;
 esac
 
+VERSION="${VERSION:-$(get_project_version)}"
+DIST_DIR="${DIST_DIR:-$repo_root}"
+mkdir -p "$DIST_DIR"
+
 setup_appimagetool() {
   if [ ! -e appimagetool ]; then
-    if ! wget -O appimagetool "https://github.com/AppImage/appimagetool/releases/download/continuous/appimagetool-${ARCH}.AppImage" ; then
-      echo "Could not download the appimagetool for the arch '${ARCH}'."
+    if ! wget -O appimagetool \
+      "https://github.com/AppImage/appimagetool/releases/download/continuous/appimagetool-${ARCH}.AppImage"; then
+      echo "Could not download appimagetool for arch '${ARCH}'." >&2
       exit 1
     else
       chmod 0755 appimagetool
@@ -83,55 +105,67 @@ setup_appimagetool() {
   fi
 }
 
-generate_appimage() {
-  if [[ "$NOBUILD" != true && ! -e $BUILD_DIR ]]; then
-    application/scripts/build.sh --portable --forcefallback --mode release -b "${BUILD_DIR}"
+stage_appdir() {
+  local appdir="TCode.AppDir"
+
+  if [[ "$NOBUILD" != true && ! -f "$BUILD_DIR/build.ninja" ]]; then
+    local layout="--portable"
+    [[ "$PORTABLE" != true ]] && layout="--installable"
+    bash application/scripts/build.sh "$layout" --forcefallback --mode release -b "${BUILD_DIR#application/}"
   fi
 
-  if [ -e TCode.AppDir ]; then
-    rm -rf TCode.AppDir
+  rm -rf "$appdir"
+  echo "Staging AppDir..."
+  DESTDIR="$(realpath "$appdir")" meson install -C "$BUILD_DIR" \
+    --no-rebuild --skip-subprojects=freetype2,lua,pcre2
+
+  # The payload root is DESTDIR + install prefix.
+  local root=""
+  for candidate in "$appdir/usr/local" "$appdir/usr" "$appdir"; do
+    if [[ -e "$candidate/bin/tcode" || -e "$candidate/tcode" ]]; then
+      root="$candidate"
+      break
+    fi
+  done
+  if [[ -z "$root" ]]; then
+    echo "Could not locate the staged tcode payload under $appdir." >&2
+    exit 1
   fi
 
-  echo "Creating TCode.AppDir..."
-
-  DESTDIR="$(realpath TCode.AppDir)" meson install -C ${BUILD_DIR} --no-rebuild --skip-subprojects=freetype2,lua,pcre2
-
-  cp application/resources/icons/tcode.svg TCode.AppDir/
-  cp application/resources/linux/dev.thinakaran.tcode.desktop TCode.AppDir/
-
-  # https://github.com/lite-xl/lite-xl/issues/1912
-  mkdir -p ./TCode.AppDir/usr/share/../bin
-  # Handle both portable (flat) and installable (FHS) staging layouts
-  if [[ -e ./TCode.AppDir/tcode ]]; then
-    mv ./TCode.AppDir/tcode ./TCode.AppDir/usr/bin
-  elif [[ -e ./TCode.AppDir/bin/tcode ]]; then
-    mv ./TCode.AppDir/bin/tcode ./TCode.AppDir/usr/bin/tcode
-    rm -rf ./TCode.AppDir/bin
+  mkdir -p "$appdir/usr/bin" "$appdir/usr/share"
+  if [[ -e "$root/bin/tcode" ]]; then
+    mv "$root/bin/tcode" "$appdir/usr/bin/tcode"
+  elif [[ -e "$root/tcode" ]]; then
+    mv "$root/tcode" "$appdir/usr/bin/tcode"
   fi
-  if [[ -e ./TCode.AppDir/data ]]; then
-    mv ./TCode.AppDir/data ./TCode.AppDir/usr/share/tcode
-  elif [[ -e ./TCode.AppDir/share/tcode ]]; then
-    mkdir -p ./TCode.AppDir/usr/share
-    mv ./TCode.AppDir/share/tcode ./TCode.AppDir/usr/share/tcode
-    rm -rf ./TCode.AppDir/share
+  if [[ -d "$root/share/tcode" ]]; then
+    mv "$root/share/tcode" "$appdir/usr/share/tcode"
+  elif [[ -d "$root/data" ]]; then
+    mv "$root/data" "$appdir/usr/share/tcode"
   fi
-  rm -rf ./TCode.AppDir/lib64 ./TCode.AppDir/include
+
+  # Drop prefix leftovers (usr/local, lib64, include, doc) so the AppDir
+  # contains only the AppRun + usr/bin + usr/share payload.
+  rm -rf "$appdir/usr/local" "$appdir/usr/lib64" "$appdir/lib64" "$appdir/include" "$appdir/doc"
+
+  cp application/resources/icons/tcode.svg "$appdir/"
+  cp application/resources/linux/dev.thinakaran.tcode.desktop "$appdir/"
 
   echo "Creating AppRun..."
-	cat >> TCode.AppDir/AppRun <<- 'EOF'
-	#!/bin/sh
-	CURRENTDIR="$(dirname "$(readlink -f "$0")")"
-	exec "$CURRENTDIR/usr/bin/tcode" "$@"
-	EOF
-  chmod +x TCode.AppDir/AppRun
+  cat > "$appdir/AppRun" <<'EOF'
+#!/bin/sh
+CURRENTDIR="$(dirname "$(readlink -f "$0")")"
+exec "$CURRENTDIR/usr/bin/tcode" "$@"
+EOF
+  chmod +x "$appdir/AppRun"
+}
 
-  echo "Generating AppImage..."
-  local version=""
-  if [ -n "$VERSION" ]; then
-    version="-$VERSION"
-  fi
+generate_appimage() {
+  stage_appdir
 
-  APPIMAGE_EXTRACT_AND_RUN=1 ./appimagetool TCode.AppDir TCode${version}-${ARCH}-linux.AppImage
+  local out="$DIST_DIR/tcode-${VERSION}-${ARCH}-linux.AppImage"
+  echo "Generating AppImage -> $out"
+  ARCH="$ARCH" APPIMAGE_EXTRACT_AND_RUN=1 ./appimagetool TCode.AppDir "$out"
   rm -rf TCode.AppDir
 }
 

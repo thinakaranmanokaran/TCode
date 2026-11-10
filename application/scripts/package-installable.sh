@@ -62,14 +62,24 @@ main() {
 
     if [[ "$format" == "deb" ]]; then
       command -v dpkg-deb >/dev/null 2>&1 || { echo "dpkg-deb not found." >&2; exit 1; }
+      # Debian architecture names differ from uname -m.
+      local deb_arch
+      case "$arch" in
+        x86_64) deb_arch=amd64 ;;
+        aarch64) deb_arch=arm64 ;;
+        i686|i386) deb_arch=i386 ;;
+        armv7l) deb_arch=armhf ;;
+        *) deb_arch="$arch" ;;
+      esac
       local deb_root="$builddir/deb-root"
       rm -rf "$deb_root"
       mkdir -p "$deb_root/usr/local"
       cp -a "$usr_local"/. "$deb_root/usr/local"/
 
       mkdir -p "$deb_root/DEBIAN"
-      # Debian control (from template; @VERSION@ substituted)
-      sed "s/@VERSION@/$version/g" "${app_root}/resources/linux/debian/control.in" > "$deb_root/DEBIAN/control"
+      # Debian control (from template; @VERSION@ / @ARCH@ substituted)
+      sed -e "s/@VERSION@/$version/g" -e "s/@ARCH@/$deb_arch/g" \
+        "${app_root}/resources/linux/debian/control.in" > "$deb_root/DEBIAN/control"
       sed "s/@VERSION@/$version/g" "${app_root}/resources/linux/debian/conffiles.in" > "$deb_root/DEBIAN/conffiles" 2>/dev/null || true
       cat > "$deb_root/DEBIAN/postinst" <<'EOF'
 #!/bin/sh
@@ -95,7 +105,7 @@ EOF
       chmod 755 "$deb_root/DEBIAN/postinst" "$deb_root/DEBIAN/postrm"
 
       mkdir -p "$distdir"
-      local deb_file="$distdir/tcode_${version}_${arch}.deb"
+      local deb_file="$distdir/tcode_${version}_${deb_arch}.deb"
       dpkg-deb --build --root-owner-group "$deb_root" "$deb_file"
       echo "Debian package -> $deb_file"
       return 0
