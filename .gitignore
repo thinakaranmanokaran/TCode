@@ -5,6 +5,7 @@ submodules/
 application/subprojects/*/
 !application/subprojects/packagefiles/
 /appimage*
+/appimagetool
 .vscode
 .cache
 .ccls-cache
@@ -39,3 +40,4 @@ website/.vite-react-ssg-temp/
 # Distribution artifacts (production installable + portable outputs)
 application/dist/
 application/build-*/
+/releases/

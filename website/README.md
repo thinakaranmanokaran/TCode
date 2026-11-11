@@ -64,18 +64,33 @@ node scripts/generate-theme-data.js
 
 ## Deploy
 
-### GitHub Pages (recommended)
+### GitHub Pages
 
 Repo: `https://github.com/thinakaranmanokaran/TCode` · Site: `https://thinakaranmanokaran.github.io/TCode/`
 
-1. In the repo, go to **Settings → Pages → Build and deployment → Source: GitHub Actions**.
-2. Push to `main` (or run **Actions → Deploy website to GitHub Pages → Run workflow**).
-   The workflow in `.github/workflows/pages.yml` builds `website/` with `VITE_BASE=/TCode/` and deploys `website/dist/`.
+The workflow `.github/workflows/pages.yml` builds and deploys the site:
+
+1. In the repo: **Settings -> Pages -> Build and deployment -> Source: GitHub Actions**.
+2. Push to `main` (paths under `website/`), or run
+   **Actions -> Deploy website to GitHub Pages -> Run workflow**.
+
+It runs `npm ci`, builds with `VITE_BASE=/TCode/`, adds `dist/.nojekyll`, uploads
+`website/dist` with `actions/upload-pages-artifact`, and deploys with
+`actions/deploy-pages`.
+
+Manual fallback:
 
 ```sh
-# Local check of the Pages build
+cd website
 MSYS_NO_PATHCONV=1 VITE_BASE=/TCode/ npm run build
-npm run preview   # serves at http://127.0.0.1:4173/TCode/
+touch dist/.nojekyll     # bypass Jekyll and keep _headers intact
+npx gh-pages -d dist     # only when Pages source is a branch, not Actions
+```
+
+Local preview at `http://127.0.0.1:4173/TCode/`:
+
+```sh
+npm run preview
 ```
 
 - `vite.config.js` reads `VITE_BASE` (default `/`) and `src/main.jsx` passes `basename: import.meta.env.BASE_URL` to the router, so links/assets resolve under `/TCode/` on Pages and `/` on custom domains.
