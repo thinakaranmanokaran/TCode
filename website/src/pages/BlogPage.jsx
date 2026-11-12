@@ -34,7 +34,7 @@ export function BlogPage() {
   return (
     <>
       <PageMeta
-        title="T Code Blog — Lightweight Editing, Builds, and Comparisons"
+        title="T Code Blog — Lightweight Code Editors, Builds & Comparisons"
         description="Notes on lightweight code editors, T Code releases, building from source, and honest editor comparisons."
         path="/blog"
       />
@@ -44,13 +44,13 @@ export function BlogPage() {
         eyebrow="Writing"
         title={
           <>
-            Notes on small
+            Notes on <em>lightweight</em>
             <br />
-            software that <em>works.</em>
+            code editors.
           </>
         }
         sub="Essays, build guides, and honest comparisons from the making of T Code."
-        meta={["3 articles", "Updated 2026", "No fluff"]}
+        meta={[`${blogPosts.length} articles`, "Updated 2026", "No fluff"]}
       />
 
       <section className="site-container" style={{ paddingBottom: 100 }}>

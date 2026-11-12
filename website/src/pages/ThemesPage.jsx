@@ -60,9 +60,9 @@ export function ThemesPage() {
           eyebrow="Themes · 24"
           title={
             <>
-              A theme for every
+              24 themes for a
               <br />
-              kind of <em>tired.</em>
+              <em>lightweight</em> code editor.
             </>
           }
           sub="Ten Bearded variations. Ten Monokai variations. Four classics. Hover to preview, click to keep, and T Code remembers your choice."

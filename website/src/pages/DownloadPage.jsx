@@ -65,7 +65,7 @@ export function DownloadPage() {
     <>
       <PageMeta
         title="Download T Code — Free Editor for Windows, Linux & macOS"
-        description="Download T Code 2.1.7 for Windows, Linux, or macOS. Portable builds, installers, AppImage, and DMG packages. Free, open source, and about 5 MB."
+        description="Download T Code 2.1.7, a free lightweight code editor for Windows, Linux, or macOS. Portable builds, installers, AppImage, and DMG packages. About 5 MB."
         path="/download"
         keywords="download T Code, free code editor, Windows editor, Linux editor, macOS editor, portable editor"
         imageAlt="Download T Code for Windows Linux and macOS"
@@ -76,9 +76,9 @@ export function DownloadPage() {
         eyebrow={`Download · v${siteConfig.version} · ${siteConfig.license}`}
         title={
           <>
-            Download T Code.
+            Download the <em>lightweight</em>
             <br />
-            Stay <em>light.</em>
+            code editor.
           </>
         }
         sub="Pick your platform. The portable builds run from a folder with no installer. The packaged builds add T Code to your desktop."
@@ -96,6 +96,14 @@ export function DownloadPage() {
       />
 
       <section className="site-container" style={{ paddingBottom: 90 }}>
+        <div className="content-section__head" style={{ marginBottom: 34 }}>
+          <div className="eyebrow" style={{ color: "var(--electric)" }}>
+            Downloads
+          </div>
+          <h2 className="display content-section__title">
+            Pick your <em>platform.</em>
+          </h2>
+        </div>
         <div className="platform-grid">
           <PlatformCard
             icon={Monitor}

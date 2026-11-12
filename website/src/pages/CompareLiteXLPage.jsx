@@ -48,8 +48,8 @@ export function CompareLiteXLPage() {
   return (
     <>
       <PageMeta
-        title="Lite XL vs T Code — What's New and Who Should Switch"
-        description="Compare Lite XL and T Code on interface, integrated terminal, themes, plugin compatibility, and performance to decide which editor fits your workflow."
+        title="Lite XL vs T Code — Lightweight Editor Comparison"
+        description="Compare Lite XL and T Code, two lightweight code editors, on interface, integrated terminal, themes, plugin compatibility, and performance."
         path="/compare/lite-xl-vs-t-code"
         type="article"
         publishedTime="2026-11-07"
@@ -63,9 +63,9 @@ export function CompareLiteXLPage() {
         eyebrow="Comparison · Lite XL vs T Code"
         title={
           <>
-            Two editors.
+            Lite XL vs T Code:
             <br />
-            Different <em>priorities.</em>
+            which <em>lightweight</em> editor fits?
           </>
         }
         sub="Lite XL and T Code are both small, fast, Lua-extensible editors. Here is how their workflows compare."

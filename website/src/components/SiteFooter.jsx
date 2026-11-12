@@ -19,8 +19,12 @@ const projectLinks = [
 ];
 
 const resourceLinks = [
+  { label: "What is a lightweight editor?", to: "/lightweight-code-editor" },
+  { label: "Best lightweight editors", to: "/best/lightweight-code-editors" },
+  { label: "Benchmarks", to: "/benchmarks" },
+  { label: "Compare editors", to: "/compare" },
   { label: "Build from source", to: "/blog/build-t-code-from-source" },
-  { label: "Compare editors", to: "/compare/vs-code-vs-t-code" },
+  { label: "Press kit", to: "/press" },
   { label: "Latest release", href: siteConfig.links.releases },
   { label: "Source code", href: siteConfig.links.github },
   { label: "Support", href: `mailto:${siteConfig.links.email}` },

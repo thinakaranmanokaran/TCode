@@ -5,9 +5,10 @@ export const siteConfig = {
   // https://tcode.thinakaran.dev when using the custom domain.
   url: "https://thinakaranmanokaran.github.io/TCode",
   version: "2.1.7",
+  lastUpdated: "2026-11-12",
   tagline: "A lightweight code editor that gets out of your way.",
   description:
-    "T Code is a free, open-source code editor for Windows, Linux, and macOS. About 5 MB, instant startup, an integrated terminal, and 24 themes.",
+    "T Code is a free, open-source lightweight code editor for Windows, Linux, and macOS. About 5 MB, instant startup, an integrated terminal, and 24 themes.",
   releaseLabel: "T Code 2.1.7",
   license: "MIT",
   author: {

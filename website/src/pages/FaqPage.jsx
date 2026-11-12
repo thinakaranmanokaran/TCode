@@ -30,8 +30,8 @@ export function FaqPage() {
   return (
     <>
       <PageMeta
-        title="T Code FAQ — Downloads, Plugins & Portable Mode"
-        description="Answers about T Code: what it is, platform support, download options, portable mode, plugins, themes, and how to build from source."
+        title="T Code FAQ — Lightweight Code Editor Questions"
+        description="Answers about T Code, the lightweight code editor: what it is, platform support, download options, portable mode, plugins, themes, and building from source."
         path="/faq"
       />
       <JsonLd data={schema} />
@@ -40,9 +40,9 @@ export function FaqPage() {
         eyebrow="FAQ"
         title={
           <>
-            Questions.
+            Lightweight code editor
             <br />
-            <em>Answered.</em>
+            questions, <em>answered.</em>
           </>
         }
         sub="The short answers to the things people ask before trying T Code."
@@ -50,6 +50,14 @@ export function FaqPage() {
       />
 
       <section className="site-container" style={{ paddingBottom: 100 }}>
+        <div className="content-section__head" style={{ marginBottom: 30 }}>
+          <div className="eyebrow" style={{ color: "var(--electric)" }}>
+            Common questions
+          </div>
+          <h2 className="display content-section__title">
+            The short <em>answers.</em>
+          </h2>
+        </div>
         <div className="faq-list">
           {faqs.map((faq, index) => (
             <details className="faq-item" key={faq.question} open={index === 0}>

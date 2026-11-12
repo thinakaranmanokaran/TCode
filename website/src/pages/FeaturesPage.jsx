@@ -30,10 +30,10 @@ export function FeaturesPage() {
   return (
     <>
       <PageMeta
-        title="T Code Features — Terminal, Themes & Multi-Cursor"
-        description="Explore T Code's native menu bar, integrated terminal, 24 built-in themes, multi-cursor editing, portable mode, and plugin compatibility."
+        title="T Code Features — Lightweight Code Editor with Terminal"
+        description="Explore the lightweight code editor features in T Code: native menus, integrated terminal, 24 themes, multi-cursor editing, portable mode, and plugins."
         path="/features"
-        keywords="T Code features, integrated terminal, native menus, multi-cursor, portable mode, plugin compatibility"
+        keywords="lightweight code editor features, T Code features, integrated terminal, native menus, multi-cursor, portable mode, plugin compatibility"
         imageAlt="T Code features — terminal, themes and multi-cursor"
       />
       <JsonLd data={schema} />
@@ -42,9 +42,9 @@ export function FeaturesPage() {
         eyebrow="Features · 07"
         title={
           <>
-            Everything you need.
+            A <em>lightweight</em> code editor
             <br />
-            Nothing you <em>don&apos;t.</em>
+            with everything you need.
           </>
         }
         sub="T Code is a small editor with a serious workflow. These are the upgrades that turn a minimal core into a desktop editor you can live in."

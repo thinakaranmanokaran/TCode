@@ -64,9 +64,9 @@ export function CompareVSCodePage() {
         eyebrow="Comparison · VS Code vs T Code"
         title={
           <>
-            A different
+            VS Code vs T Code:
             <br />
-            <em>weight class.</em>
+            a <em>lightweight</em> comparison.
           </>
         }
         sub="VS Code is a platform. T Code is an editor. That distinction explains almost every difference below."

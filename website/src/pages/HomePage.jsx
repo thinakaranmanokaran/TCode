@@ -11,30 +11,65 @@ import { QuoteSection } from "../components/QuoteSection.jsx";
 import { Lineage } from "../components/Lineage.jsx";
 import { StatStrip } from "../components/StatStrip.jsx";
 import { siteConfig } from "../data/site.js";
-import { graphSchema, websiteSchema, softwareSchema, personSchema } from "../data/schema.js";
+import {
+  graphSchema,
+  websiteSchema,
+  softwareSchema,
+  personSchema,
+  organizationSchema,
+} from "../data/schema.js";
 
-const schema = graphSchema([websiteSchema, softwareSchema, personSchema]);
+const schema = graphSchema([
+  websiteSchema,
+  softwareSchema,
+  personSchema,
+  organizationSchema,
+]);
+
+const compareRows = [
+  ["Download size", "About 5 MB", "Hundreds of MB", "About 5 MB"],
+  ["Runtime", "C + Lua", "Electron + Chromium", "C + Lua"],
+  ["Integrated terminal", "Built in", "Built in", "Plugin / external"],
+  ["Menu bar", "Native", "Electron-rendered", "Minimal / plugin"],
+  ["Themes", "24 built in", "Marketplace", "Themes / plugins"],
+  ["License", "MIT", "Proprietary build", "MIT"],
+];
 
 export function HomePage() {
   return (
     <>
       <PageMeta
-        title="T Code — The Lightweight Code Editor for Developers"
+        title="T Code — Lightweight Code Editor for Windows, macOS & Linux"
         description={siteConfig.description}
         path="/"
-        keywords="lightweight code editor, T Code, free code editor, C Lua editor, integrated terminal, 24 themes"
+        keywords="lightweight code editor, light weight code editor, T Code, free code editor, C Lua editor, portable code editor, integrated terminal, 24 themes"
         imageAlt="T Code lightweight code editor by Thinakaran Manokaran"
       />
       <JsonLd data={schema} />
 
       <section className="hero">
+        <div className="hero__eyebrow">I want to make coding feel light again</div>
         <h1 className="display">
-          I want to make coding feel <em>light</em> again.
+          The <em>lightweight</em> code editor that gets out of your way.
         </h1>
         <p className="hero__lead">
-          T Code is a free, open-source code editor built in C and Lua. Five megabytes.
-          Instant startup. A terminal, native menus, and 24 themes — all in one window.
+          T Code is a free, open-source lightweight code editor for Windows, macOS,
+          and Linux. About 5 MB, instant startup, a real terminal, native menus, and
+          24 themes — without Electron or a bundled browser.
         </p>
+        <div className="hero__actions">
+          <Link className="btn btn--blue" to="/download">
+            Download T Code <ArrowUpRight size={17} strokeWidth={1.6} />
+          </Link>
+          <a
+            className="btn btn--outline"
+            href={siteConfig.links.github}
+            target="_blank"
+            rel="noreferrer"
+          >
+            <GithubIcon size={17} /> View source
+          </a>
+        </div>
         <div className="hero__meta">
           <span>Windows · macOS · Linux</span>
           <span>v{siteConfig.version} · {siteConfig.license}</span>
@@ -73,6 +108,100 @@ export function HomePage() {
       </section>
 
       <StatStrip stats={siteConfig.stats} borderTop={false} />
+
+      <section
+        className="content-section content-section--mist"
+        id="what-is-a-lightweight-code-editor"
+      >
+        <div className="site-container">
+          <div className="grid-2">
+            <Reveal>
+              <div className="eyebrow" style={{ color: "var(--electric)" }}>
+                The definition
+              </div>
+              <h2 className="display content-section__title">
+                What is a <em>lightweight</em> code editor?
+              </h2>
+            </Reveal>
+            <Reveal delay={80}>
+              <p className="content-section__lead" style={{ marginTop: 0 }}>
+                A lightweight code editor starts quickly, uses very little disk
+                space and memory, and avoids bundling a browser runtime. It is
+                not just a file size: it is the combination of startup time,
+                memory use, dependency count, and how much of the editor stays
+                out of your way.
+              </p>
+              <p className="content-section__lead">
+                T Code is about 5 MB on Windows. It pairs a small C core for
+                rendering and input with Lua for the editor and plugins. There
+                is no Electron runtime, no bundled browser, and no account to
+                create.
+              </p>
+              <h3
+                className="display"
+                style={{ fontSize: "clamp(28px, 3vw, 40px)", marginTop: 30 }}
+              >
+                Who it&apos;s <em>for.</em>
+              </h3>
+              <ul className="content-section__list">
+                <li>Older laptops and low-RAM machines that struggle with Electron editors.</li>
+                <li>Portable setups where the editor and settings live on a USB drive.</li>
+                <li>Developers who want a fast local editor with a terminal and project search.</li>
+                <li>Lite XL users who want the same core with a more complete desktop workflow.</li>
+              </ul>
+            </Reveal>
+          </div>
+
+          <Reveal>
+            <h2 className="display content-section__title" style={{ marginTop: 70 }}>
+              A different <em>weight class.</em>
+            </h2>
+            <table className="compare-table">
+              <thead>
+                <tr>
+                  <th>Dimension</th>
+                  <th>T Code</th>
+                  <th>VS Code</th>
+                  <th>Lite XL</th>
+                </tr>
+              </thead>
+              <tbody>
+                {compareRows.map(([dimension, tcode, vscode, litexl]) => (
+                  <tr key={dimension}>
+                    <td>{dimension}</td>
+                    <td>{tcode}</td>
+                    <td>{vscode}</td>
+                    <td>{litexl}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+            <p style={{ marginTop: 24, color: "var(--muted)", fontSize: 14 }}>
+              Sizes are approximate and vary by platform and build. T Code and
+              Lite XL use a C and Lua core; VS Code ships an Electron runtime.
+            </p>
+            <div
+              style={{
+                display: "flex",
+                flexWrap: "wrap",
+                gap: 18,
+                marginTop: 28,
+              }}
+            >
+              <Link className="link-arrow" to="/lightweight-code-editor">
+                Read the full lightweight editor guide{" "}
+                <ArrowRight size={16} strokeWidth={1.6} />
+              </Link>
+              <Link className="link-arrow" to="/best/lightweight-code-editors">
+                Best lightweight editors <ArrowRight size={16} strokeWidth={1.6} />
+              </Link>
+              <Link className="link-arrow" to="/benchmarks">
+                Benchmark method <ArrowRight size={16} strokeWidth={1.6} />
+              </Link>
+            </div>
+          </Reveal>
+        </div>
+      </section>
 
       <FeatureShowcase />
 

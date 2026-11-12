@@ -31,7 +31,7 @@ export function AboutPage() {
     <>
       <PageMeta
         title="About T Code — by Thinakaran Manokaran"
-        description="Why T Code exists and what a small, fast, native code editor can do on Windows, Linux, and macOS."
+        description="Learn how T Code became a lightweight code editor, why it exists, and what a small, fast, native editor can do on Windows, Linux, and macOS."
         path="/about"
         keywords="About T Code, Thinakaran Manokaran, why lightweight editor, code editor story"
         imageAlt="About T Code by Thinakaran Manokaran"
@@ -44,9 +44,9 @@ export function AboutPage() {
           eyebrow="About · the story"
           title={
             <>
-              How T Code
+              How T Code became a
               <br />
-              got <em>here.</em>
+              <em>lightweight</em> code editor.
             </>
           }
           sub="A small editor, a stubborn idea, and a developer who wanted the tools to get out of the way."

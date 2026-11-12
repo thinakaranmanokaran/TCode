@@ -2,6 +2,11 @@ import { siteConfig } from "./site.js";
 
 const abs = (path) => `${siteConfig.url}${path.startsWith("/") ? path : `/${path}`}`;
 
+// Page URLs on GitHub Pages resolve with a trailing slash. Asset URLs must
+// keep their extension and stay untouched.
+const pageUrl = (path) =>
+  `${siteConfig.url}${path === "/" ? "/" : `${path.replace(/\/+$/, "")}/`}`;
+
 export const personSchema = {
   "@type": "Person",
   "@id": `${siteConfig.url}/#thinakaran`,
@@ -26,10 +31,21 @@ export const personSchema = {
   knowsAbout: siteConfig.author.skills,
 };
 
+export const organizationSchema = {
+  "@type": "Organization",
+  "@id": `${siteConfig.url}/#organization`,
+  name: siteConfig.name,
+  url: `${siteConfig.url}/`,
+  logo: abs("/brand/icon-512.png"),
+  founder: { "@id": `${siteConfig.url}/#thinakaran` },
+  email: siteConfig.links.email,
+  sameAs: [siteConfig.links.github],
+};
+
 export const websiteSchema = {
   "@type": "WebSite",
   "@id": `${siteConfig.url}/#website`,
-  url: siteConfig.url,
+  url: `${siteConfig.url}/`,
   name: siteConfig.name,
   description: siteConfig.description,
   inLanguage: "en",
@@ -40,6 +56,7 @@ export const softwareSchema = {
   "@type": "SoftwareApplication",
   "@id": `${siteConfig.url}/#software`,
   name: siteConfig.name,
+  url: `${siteConfig.url}/`,
   description: siteConfig.description,
   applicationCategory: "DeveloperApplication",
   applicationSubCategory: "Code editor",
@@ -53,8 +70,17 @@ export const softwareSchema = {
     priceCurrency: "USD",
   },
   downloadUrl: siteConfig.links.releases,
-  screenshot: abs("/images/screenshots/editor.webp"),
+  softwareHelp: pageUrl("/faq"),
+  releaseNotes: pageUrl("/changelog"),
+  screenshot: [
+    abs("/images/screenshots/editor.webp"),
+    abs("/images/screenshots/terminal.webp"),
+  ],
   author: { "@id": `${siteConfig.url}/#thinakaran` },
+  brand: { "@type": "Brand", name: siteConfig.name },
+  sameAs: [siteConfig.links.github],
+  datePublished: "2026-11-07",
+  dateModified: siteConfig.lastUpdated,
   featureList: [
     "Integrated terminal with tabs and shell profiles",
     "Native menu bar and activity bar",
@@ -68,8 +94,8 @@ export const softwareSchema = {
 export function webPageSchema({ title, description, path }) {
   return {
     "@type": "WebPage",
-    "@id": abs(path),
-    url: abs(path),
+    "@id": pageUrl(path),
+    url: pageUrl(path),
     name: title,
     description,
     inLanguage: "en",
@@ -86,7 +112,7 @@ export function breadcrumbSchema(items) {
       "@type": "ListItem",
       position: index + 1,
       name: item.name,
-      item: abs(item.path),
+      item: pageUrl(item.path),
     })),
   };
 }
@@ -105,14 +131,21 @@ export function faqSchema(faqs) {
   };
 }
 
-export function articleSchema({ title, description, path, date, author = siteConfig.author.name }) {
+export function articleSchema({
+  title,
+  description,
+  path,
+  date,
+  updated = date,
+  author = siteConfig.author.name,
+}) {
   return {
     "@type": "BlogPosting",
     headline: title,
     description,
-    url: abs(path),
+    url: pageUrl(path),
     datePublished: date,
-    dateModified: date,
+    dateModified: updated,
     author: {
       "@type": "Person",
       name: author,
@@ -123,7 +156,7 @@ export function articleSchema({ title, description, path, date, author = siteCon
       name: author,
       url: siteConfig.links.portfolio,
     },
-    mainEntityOfPage: abs(path),
+    mainEntityOfPage: pageUrl(path),
     image: abs("/images/og/default.png"),
   };
 }

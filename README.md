@@ -1,15 +1,36 @@
 # T Code
 
-A lightweight text editor written in Lua.
+A lightweight code editor for Windows, macOS, and Linux. Built with a C core and
+Lua, with no Electron or bundled browser runtime.
 
 **Author:** [Thinakaran Manokaran](https://thinakaran.dev/)
 
-**Website:** https://thinakaran.dev/
+**Website:** https://thinakaranmanokaran.github.io/TCode/
+
+**Download:** [Latest release](https://github.com/thinakaranmanokaran/TCode/releases/latest)
+
+[![T Code editor](website/public/images/screenshots/editor.webp)](https://thinakaranmanokaran.github.io/TCode/)
 
 T Code keeps a small, fast, and extensible design while adding a
 VS Code-style menu bar and activity bar, an integrated terminal, a theme picker
 with live previews, word wrap, a Selection menu, tab and Explorer context menus,
 and native file/folder dialogs.
+
+- About **5 MB** on Windows; about a **2.6 MB** portable zip
+- No Electron, no browser runtime, no account
+- Integrated terminal with tabs, shell profiles, ConPTY on Windows, and PTY on POSIX
+- 24 built-in themes with live preview
+- MIT licensed and compatible with mod-version 4 plugins
+
+## Download
+
+- [Windows portable and installer](https://github.com/thinakaranmanokaran/TCode/releases/latest)
+- [Linux portable tarball and AppImage](https://github.com/thinakaranmanokaran/TCode/releases/latest)
+- [macOS universal DMG and portable archive](https://github.com/thinakaranmanokaran/TCode/releases/latest)
+
+Read [what makes a lightweight code editor](https://thinakaranmanokaran.github.io/TCode/lightweight-code-editor/),
+compare the [best lightweight code editors](https://thinakaranmanokaran.github.io/TCode/best/lightweight-code-editors/),
+or see the [measured benchmark method](https://thinakaranmanokaran.github.io/TCode/benchmarks/).
 
 ## Overview
 

@@ -4,17 +4,29 @@ import { siteConfig } from "../src/data/site.js";
 import { sitemapPages, blogPosts } from "../src/data/pages.js";
 
 const dist = path.resolve(process.cwd(), "dist");
-const today = new Date().toISOString().slice(0, 10);
 
-const urls = sitemapPages
-  .map(
-    (page) => `  <url>
-    <loc>${siteConfig.url}${page.path === "/" ? "/" : page.path}</loc>
-    <lastmod>${today}</lastmod>
+const pages = [
+  ...sitemapPages,
+  ...blogPosts.map((post) => ({
+    path: `/blog/${post.slug}`,
+    priority: "0.6",
+    changefreq: "yearly",
+    lastmod: post.updated || post.date,
+  })),
+];
+
+const urls = pages
+  .map((page) => {
+    const loc = `${siteConfig.url}${
+      page.path === "/" ? "/" : `${page.path.replace(/\/+$/, "")}/`
+    }`;
+    const lastmod = page.lastmod ? `\n    <lastmod>${page.lastmod}</lastmod>` : "";
+    return `  <url>
+    <loc>${loc}</loc>${lastmod}
     <changefreq>${page.changefreq}</changefreq>
     <priority>${page.priority}</priority>
-  </url>`,
-  )
+  </url>`;
+  })
   .join("\n");
 
 const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
@@ -25,7 +37,6 @@ ${urls}
 
 const robots = `User-agent: *
 Allow: /
-Disallow: /404
 
 Sitemap: ${siteConfig.url}/sitemap.xml
 `;
@@ -35,8 +46,8 @@ const rssItems = blogPosts
   .map(
     (post) => `    <item>
       <title><![CDATA[${post.title}]]></title>
-      <link>${siteConfig.url}/blog/${post.slug}</link>
-      <guid isPermaLink="true">${siteConfig.url}/blog/${post.slug}</guid>
+      <link>${siteConfig.url}/blog/${post.slug}/</link>
+      <guid isPermaLink="true">${siteConfig.url}/blog/${post.slug}/</guid>
       <description><![CDATA[${post.description}]]></description>
       <pubDate>${new Date(`${post.date}T09:00:00+05:30`).toUTCString()}</pubDate>
     </item>`,
@@ -47,7 +58,7 @@ const rss = `<?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0">
   <channel>
     <title>T Code Blog</title>
-    <link>${siteConfig.url}/blog</link>
+    <link>${siteConfig.url}/blog/</link>
     <description>Notes on lightweight code editors, T Code releases, and building small software.</description>
     <language>en</language>
     <lastBuildDate>${new Date().toUTCString()}</lastBuildDate>
@@ -67,4 +78,4 @@ try {
   console.warn("404 page was not generated; skipping 404.html copy");
 }
 
-console.log(`wrote sitemap with ${sitemapPages.length} URLs`);
+console.log(`wrote sitemap with ${pages.length} URLs`);

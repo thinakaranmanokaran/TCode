@@ -15,9 +15,10 @@ The application showcase and SEO site for **T Code**.
 
 ```sh
 npm install
-npm run dev      # local development
-npm run build    # static build + sitemap
-npm run preview  # preview the production build
+npm run dev        # local development
+npm run build      # static build + sitemap + SEO guardrails
+npm run seo:check  # validate canonicals, H1s, sitemap, and metadata
+npm run preview    # preview the production build
 ```
 
 `npm run build` writes the static site to `dist/`. Every route is pre-rendered to real HTML, so the content is indexable without waiting for client-side React.
@@ -61,6 +62,32 @@ node scripts/generate-theme-data.js
 - `404.html` generated for static hosts
 - Static HTML output with no client-side content dependency
 - Images are WebP, lazy-loaded below the fold, and sized to prevent layout shift
+- Google Search Console URL-prefix property is verified with
+  `public/googleb2d538de4396f59b.html`. Keep that file at the site root when
+  deploying.
+- Canonical, sitemap, RSS, Open Graph, and JSON-LD URLs use a trailing slash to
+  match the URLs GitHub Pages actually serves. Do not point them at the
+  slash-less variants, which return a 301.
+- Sitemap `lastmod` values come from `src/data/pages.js` and blog post dates.
+  Update the relevant date when page content changes; do not use the build date.
+
+The content cluster lives at:
+
+- `/lightweight-code-editor` — pillar guide
+- `/lightweight-code-editor/{windows,linux,macos,low-end-pc,portable,under-10mb}` — intent pages
+- `/best/lightweight-code-editors` — commercial listicle
+- `/benchmarks` — measured download sizes and reproducible method
+- `/compare` — comparison hub
+- `/compare/{sublime-text,notepad-plus-plus,zed,vim,codeedit,lite-xl,vs-code}-vs-t-code` — comparisons
+- `/press` — press kit and boilerplate
+
+`npm run build` runs `scripts/check-seo.js` after the sitemap. It fails the
+build on missing metadata, duplicate canonicals, multiple H1s, invalid
+JSON-LD, or sitemap/page drift. Run `npm run seo:check` separately after a
+manual build if you need just the audit.
+
+The launch, outreach, and weekly tracking plan lives in
+[`SEO_PLAYBOOK.md`](./SEO_PLAYBOOK.md).
 
 ## Deploy
 

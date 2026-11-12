@@ -13,7 +13,12 @@ export function PageMeta({
   publishedTime,
   modifiedTime,
 }) {
-  const canonical = `${siteConfig.url}${path === "/" ? "/" : path}`;
+  // GitHub Pages serves nested routes with a trailing slash (for example
+  // /TCode/features/) and 301s the slash-less variant. Keep the canonical,
+  // Open Graph, and schema URLs on the final URL so Google does not treat the
+  // canonical as a redirect.
+  const canonicalPath = path === "/" ? "/" : `${path.replace(/\/+$/, "")}/`;
+  const canonical = `${siteConfig.url}${canonicalPath}`;
   const socialImage = image.startsWith("http") ? image : `${siteConfig.url}${image}`;
 
   return (

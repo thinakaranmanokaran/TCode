@@ -4,6 +4,27 @@ import { PageMeta } from "../components/PageMeta.jsx";
 import { JsonLd } from "../components/JsonLd.jsx";
 import { SectionCta } from "../components/SectionCta.jsx";
 import { siteConfig } from "../data/site.js";
+import { assetPath } from "../data/base.js";
+
+const MONTHS = [
+  "Jan",
+  "Feb",
+  "Mar",
+  "Apr",
+  "May",
+  "Jun",
+  "Jul",
+  "Aug",
+  "Sep",
+  "Oct",
+  "Nov",
+  "Dec",
+];
+
+function formatDate(iso) {
+  const [year, month, day] = iso.split("-").map(Number);
+  return `${MONTHS[month - 1]} ${day}, ${year}`;
+}
 import {
   graphSchema,
   websiteSchema,
@@ -12,11 +33,20 @@ import {
   articleSchema,
 } from "../data/schema.js";
 
-function ArticleShell({ title, description, path, eyebrow, date, readTime, children }) {
+function ArticleShell({
+  title,
+  description,
+  path,
+  eyebrow,
+  date,
+  updated = date,
+  readTime,
+  children,
+}) {
   const schema = graphSchema([
     websiteSchema,
     personSchema,
-    articleSchema({ title, description, path, date }),
+    articleSchema({ title, description, path, date, updated }),
     breadcrumbSchema([
       { name: "Home", path: "/" },
       { name: "Blog", path: "/blog" },
@@ -32,7 +62,7 @@ function ArticleShell({ title, description, path, eyebrow, date, readTime, child
         path={path}
         type="article"
         publishedTime={date}
-        modifiedTime={date}
+        modifiedTime={updated}
         imageAlt={`${title} — T Code blog by Thinakaran Manokaran`}
       />
       <JsonLd data={schema} />
@@ -41,15 +71,58 @@ function ArticleShell({ title, description, path, eyebrow, date, readTime, child
         <header className="article-hero site-container">
           <div className="article-hero__meta">
             <span>{eyebrow}</span>
-            <span>{date}</span>
+            <span>{formatDate(date)}</span>
             <span>{readTime}</span>
           </div>
           <h1 className="display">{title}</h1>
+          <div className="article-hero__byline">
+            By <Link to="/developer">Thinakaran Manokaran</Link>
+            <span aria-hidden="true"> · </span>
+            Creator of T Code
+            <span aria-hidden="true"> · </span>
+            {updated !== date
+              ? `Updated ${formatDate(updated)}`
+              : `Published ${formatDate(date)}`}
+          </div>
           <p className="article-hero__sub">{description}</p>
         </header>
 
         <div className="article-body site-container">
           <div className="prose">{children}</div>
+
+          <div className="article-author">
+            <img
+              src={assetPath(siteConfig.author.photo)}
+              alt={siteConfig.author.name}
+              width="72"
+              height="72"
+              loading="lazy"
+              decoding="async"
+            />
+            <div>
+              <div className="eyebrow" style={{ color: "var(--electric)" }}>
+                Written by
+              </div>
+              <h2>Thinakaran Manokaran</h2>
+              <p>
+                Creator of T Code and a full-stack developer from Thanjavur,
+                Tamil Nadu. He builds web, mobile, and desktop tools that make
+                everyday work feel lighter.
+              </p>
+              <div className="article-author__links">
+                <a href={siteConfig.links.github} target="_blank" rel="noreferrer">
+                  GitHub
+                </a>
+                <a href={siteConfig.links.linkedin} target="_blank" rel="noreferrer">
+                  LinkedIn
+                </a>
+                <Link to="/developer">About the developer</Link>
+                <Link to="/#what-is-a-lightweight-code-editor">
+                  What is a lightweight code editor?
+                </Link>
+              </div>
+            </div>
+          </div>
         </div>
       </article>
 
@@ -405,6 +478,151 @@ DESTDIR="$(pwd)/application/T Code.app" meson install \\
         try a few <Link to="/themes">themes</Link>, or inspect the{" "}
         <Link to="/changelog">changelog</Link> to see what changed in the current
         release.
+      </p>
+    </ArticleShell>
+  );
+}
+
+export function BlogFiveMegabytesPage() {
+  return (
+    <ArticleShell
+      title="How T Code stays at 5 MB"
+      description="A practical look at the architecture behind a small code editor: what we bundle, what we refuse to bundle, and the trade-offs that come with it."
+      path="/blog/how-t-code-stays-at-5-mb"
+      eyebrow="Engineering"
+      date="2026-11-12"
+      readTime="7 min read"
+    >
+      <p>
+        A 5 MB code editor is not a marketing trick. It is the result of deciding,
+        over and over, not to ship things. The Windows executable is about 4.7 MB.
+        The portable zip is about 2.6 MB. Those numbers are small enough that the
+        download is not an event, and small enough that the editor can live on a USB
+        drive without a second thought.
+      </p>
+      <p>
+        This is a short look at how the size stays down, what the editor gives up,
+        and how you can verify the numbers yourself.
+      </p>
+
+      <h2>Start with what you do not bundle</h2>
+      <p>
+        Most of the weight in a modern editor is not the text buffer. It is the
+        platform around it: a browser engine, a JavaScript runtime, an extension
+        host, a language-server manager, a telemetry client, an update service, and
+        a sync account. Each layer solves a real problem. Each layer also has a
+        baseline cost before you open a file.
+      </p>
+      <p>
+        T Code does not bundle Electron or Chromium. There is no Node runtime and no
+        browser process drawing the interface. There is no account or cloud sync
+        service in the core. The editor does not ship a full language server for
+        every language, a debugger, or a marketplace client. Those are deliberate
+        omissions, not missing pieces we forgot to add.
+      </p>
+
+      <h2>The C core and the Lua layer</h2>
+      <p>
+        The editor uses a small C core for rendering, input, the filesystem, and the
+        window. Lua handles the editor logic, commands, themes, and plugins. That
+        split keeps the compiled core small while leaving the behavior of the editor
+        readable and modifiable.
+      </p>
+      <p>
+        The C core also explains why startup is fast. There is no virtual machine
+        booting a browser, no extension host scanning a marketplace, and no
+        background service deciding when to update. The editor can show a window and
+        a cursor before a larger application has finished initializing its platform.
+      </p>
+      <p>
+        Lua is not free, of course. It is a runtime. But it is a small runtime, and
+        it buys a plugin model that does not require shipping a separate SDK or a
+        browser-based extension host.
+      </p>
+
+      <h2>What the 5 MB does not include</h2>
+      <p>
+        It is worth being explicit about the trade-offs. The base download does not
+        include:
+      </p>
+      <ul>
+        <li>A first-class debugger for every runtime.</li>
+        <li>Remote containers or a remote-development server.</li>
+        <li>Notebook support.</li>
+        <li>A language server for every language.</li>
+        <li>A marketplace-sized extension ecosystem.</li>
+        <li>Cloud sync, accounts, or telemetry dashboards.</li>
+      </ul>
+      <p>
+        Some of those features can be added with plugins or external tools. Some
+        cannot. If your work depends on them, a larger editor is the right tool. The
+        5 MB figure is not a claim that T Code can replace every IDE. It is a claim
+        that the common local editing workflow does not require a browser-sized
+        platform.
+      </p>
+
+      <h2>The plugin model</h2>
+      <p>
+        T Code keeps compatibility with the mod-version 4 plugin API. Plugins live in
+        Lua, can add commands and interface pieces, and can be distributed without
+        rebuilding the application. The color theme format is a single Lua file,
+        which is why a new theme takes minutes rather than a release cycle.
+      </p>
+      <p>
+        The plugin model is also a size strategy. Instead of shipping every feature
+        in the core, the core stays small and users add what they need. The cost is
+        that the ecosystem is smaller than the big platforms. The benefit is that the
+        editor you download is the editor you chose, not a platform you have to
+        configure down.
+      </p>
+
+      <h2>What still takes space</h2>
+      <p>
+        The base editor is small, but plugins, themes, and external tools add their
+        own footprint. A language server can be hundreds of megabytes. A plugin that
+        bundles a parser or a binary can be larger than the editor itself. That is
+        normal. The point is that the baseline is small and the additions are
+        optional.
+      </p>
+      <p>
+        Memory works the same way. The editor starts with a small baseline, but a
+        large project, many terminal sessions, and a stack of plugins will increase
+        it. A lightweight editor is not a promise that memory use never grows. It is
+        a promise that the baseline is predictable and the growth is something you
+        chose.
+      </p>
+
+      <h2>How to verify the size</h2>
+      <p>
+        Download the portable zip from the latest release and check the archive size.
+        Extract it and check the executable size. On Windows, the executable is about
+        4.7 MB and the portable zip is about 2.6 MB for version 2.1.7. The numbers
+        will move slightly with each release, but the order of magnitude should not.
+      </p>
+      <p>
+        If you want to compare editors, use the same kind of package for each one.
+        An installer, a portable zip, and an installed folder are different
+        measurements. Our <Link to="/benchmarks">benchmark page</Link> lists the
+        package we measured for each editor and the date we measured it.
+      </p>
+
+      <h2>What comes next</h2>
+      <p>
+        The next improvements will follow the same rule: if a feature can be a
+        plugin, keep it out of the core. If a dependency can be optional, make it
+        optional. If a platform feature requires a browser engine, question whether
+        it belongs in a small editor at all.
+      </p>
+      <p>
+        That is not a philosophy of minimalism for its own sake. It is a way to keep
+        the editor fast, understandable, and easy to carry. The result is a tool that
+        opens quickly and stays out of the way. For a lot of local work, that is
+        enough.
+      </p>
+      <p>
+        If you want the broader definition, read{" "}
+        <Link to="/lightweight-code-editor">what makes a lightweight code editor</Link>.
+        If you want to try the result, <Link to="/download">download T Code</Link>.
       </p>
     </ArticleShell>
   );

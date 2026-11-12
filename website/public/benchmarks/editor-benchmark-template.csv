@@ -1,0 +1,9 @@
+editor,version,platform,package_size_bytes,cold_start_ms,warm_start_ms,idle_ram_mb,project_ram_mb,terminal_ram_mb,test_date,notes
+T Code,2.1.7,Windows 11 x64,2606314,,,,,,2026-11-12,Portable zip size; add your own startup and RAM measurements
+Lite XL,2.1.8,Windows 11 x64,2303776,,,,,,2026-11-12,Official Windows x86_64 zip
+Notepad++,8.9.9.1,Windows 11 x64,7048536,,,,,,2026-11-12,Official x64 installer
+Neovim,0.12.6,Windows 11 x64,12624741,,,,,,2026-11-12,Official win64 zip
+Sublime Text,4.4215,Windows 11 x64,21975760,,,,,,2026-11-12,Official x64 setup
+CodeEdit,0.3.6,macOS,35962501,,,,,,2026-11-12,Official DMG
+Zed,1.28.1,Linux x86_64,91236005,,,,,,2026-11-12,Official Linux x86_64 tar.gz
+VS Code,1.146.0,Windows 11 x64,286108864,,,,,,2026-11-12,Official user installer
